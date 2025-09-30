@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
               <div className="bg-white bg-opacity-10 rounded-lg p-6">
                 <h4 className="text-xl font-bold mb-4">🚗 주차안내</h4>
                 <p className="text-sm">사무실 앞 전용 주차공간 무료 제공</p>
-                <p className="text-sm mt-2">"작은 차로 와서 큰 차로 가세요!"</p>
+                <p className="text-sm mt-2">&ldquo;작은 차로 와서 큰 차로 가세요!&rdquo;</p>
               </div>
             </div>
 

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -24,23 +25,23 @@ const Header: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            <a href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex gap-3 items-center">
               <Image
                 src="/logo.svg"
                 alt="차렌터카 로고"
                 width={40}
                 height={40}
-                className="hover:scale-110 transition-transform"
+                className="transition-transform hover:scale-110"
               />
               <span className="text-2xl font-bold text-blue-600">차렌터카</span>
-            </a>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
           <nav className="hidden space-x-6 lg:space-x-8 md:flex">
-            <a href="/" className="text-gray-700 transition-colors duration-200 hover:text-blue-600">
+            <Link href="/" className="text-gray-700 transition-colors duration-200 hover:text-blue-600">
               홈
-            </a>
+            </Link>
 
             {/* 차량/요금 안내 Dropdown */}
             <div className="relative">
@@ -58,7 +59,7 @@ const Header: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-0 top-full mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-50"
+                    className="absolute left-0 top-full z-50 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg"
                   >
                     <div className="py-1">
                       <a href="/차량안내" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량안내</a>
@@ -88,7 +89,7 @@ const Header: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-0 top-full mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-50"
+                    className="absolute left-0 top-full z-50 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg"
                   >
                     <div className="py-1">
                       <a href="/예약방법" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">예약방법</a>
@@ -116,7 +117,7 @@ const Header: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-0 top-full mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-50"
+                    className="absolute left-0 top-full z-50 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg"
                   >
                     <div className="py-1">
                       <a href="/단기-월렌트" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">단기/월렌트</a>
@@ -146,7 +147,7 @@ const Header: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-0 top-full mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-50"
+                    className="absolute left-0 top-full z-50 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg"
                   >
                     <div className="py-1">
                       <a href="/공항-이용안내" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">공항 이용안내</a>
@@ -174,7 +175,7 @@ const Header: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-0 top-full mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-50"
+                    className="absolute left-0 top-full z-50 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg"
                   >
                     <div className="py-1">
                       <a href="/배차후기" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">배차후기</a>
@@ -197,7 +198,7 @@ const Header: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="hidden px-6 py-2 text-white rounded-lg transition-colors duration-200 md:block bg-blue-600 hover:bg-blue-700"
+            className="hidden px-6 py-2 text-white bg-blue-600 rounded-lg transition-colors duration-200 md:block hover:bg-blue-700"
           >
             지금 예약하기
           </motion.button>
@@ -222,61 +223,61 @@ const Header: React.FC = () => {
               className="overflow-hidden md:hidden"
             >
               <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
-                <a href="/" className="block px-3 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">
+                <Link href="/" className="block px-3 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">
                   홈
-                </a>
+                </Link>
 
                 {/* 차량/요금 안내 */}
-                <div className="border-t pt-2">
+                <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">차량/요금 안내</p>
-                  <a href="/차량안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">차량안내</a>
-                  <a href="/차량관리" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">차량관리</a>
-                  <a href="/이용요금-안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">이용요금 안내</a>
-                  <a href="/보험안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">보험안내</a>
-                  <a href="/대여자격" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">대여자격</a>
+                  <a href="/차량안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량안내</a>
+                  <a href="/차량관리" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량관리</a>
+                  <a href="/이용요금-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">이용요금 안내</a>
+                  <a href="/보험안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">보험안내</a>
+                  <a href="/대여자격" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">대여자격</a>
                 </div>
 
                 {/* 예약/상담 */}
-                <div className="border-t pt-2">
+                <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">예약/상담</p>
-                  <a href="/예약방법" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">예약방법</a>
-                  <a href="/카카오톡-안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">카카오톡 안내</a>
-                  <a href="/위챗-안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">위챗 안내</a>
+                  <a href="/예약방법" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">예약방법</a>
+                  <a href="/카카오톡-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">카카오톡 안내</a>
+                  <a href="/위챗-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">위챗 안내</a>
                 </div>
 
                 {/* 서비스 */}
-                <div className="border-t pt-2">
+                <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">서비스</p>
-                  <a href="/단기-월렌트" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">단기/월렌트</a>
-                  <a href="/기사포함렌트카" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">기사포함렌트카</a>
-                  <a href="/사고대차" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">사고대차</a>
-                  <a href="/사고대차-안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">사고대차 안내</a>
-                  <a href="/물품대여-서비스" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">물품대여 서비스</a>
+                  <a href="/단기-월렌트" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">단기/월렌트</a>
+                  <a href="/기사포함렌트카" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">기사포함렌트카</a>
+                  <a href="/사고대차" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">사고대차</a>
+                  <a href="/사고대차-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">사고대차 안내</a>
+                  <a href="/물품대여-서비스" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">물품대여 서비스</a>
                 </div>
 
                 {/* 공항 서비스 */}
-                <div className="border-t pt-2">
+                <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">공항 서비스</p>
-                  <a href="/공항-이용안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">공항 이용안내</a>
-                  <a href="/공항-픽업안내" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">공항 픽업안내</a>
-                  <a href="/인천공항-렌트" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">인천공항 렌트</a>
+                  <a href="/공항-이용안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">공항 이용안내</a>
+                  <a href="/공항-픽업안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">공항 픽업안내</a>
+                  <a href="/인천공항-렌트" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">인천공항 렌트</a>
                 </div>
 
                 {/* 고객센터 */}
-                <div className="border-t pt-2">
+                <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">고객센터</p>
-                  <a href="/배차후기" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">배차후기</a>
-                  <a href="/사고대차-후기" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">사고대차 후기</a>
-                  <a href="/게시판" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">게시판</a>
-                  <a href="/이벤트" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">이벤트</a>
-                  <a href="/최신소식" className="block px-6 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 text-sm">최신소식</a>
+                  <a href="/배차후기" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">배차후기</a>
+                  <a href="/사고대차-후기" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">사고대차 후기</a>
+                  <a href="/게시판" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">게시판</a>
+                  <a href="/이벤트" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">이벤트</a>
+                  <a href="/최신소식" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">최신소식</a>
                 </div>
 
-                <a href="/찾아오시는길" className="block px-3 py-2 text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50 border-t pt-2">
+                <a href="/찾아오시는길" className="block px-3 py-2 pt-2 text-gray-700 rounded-md border-t hover:text-blue-600 hover:bg-gray-50">
                   오시는 길
                 </a>
 
-                <button className="px-3 py-2 w-full text-left text-white rounded-md transition-colors duration-200 bg-blue-600 hover:bg-blue-700 mt-4">
+                <button className="px-3 py-2 mt-4 w-full text-left text-white bg-blue-600 rounded-md transition-colors duration-200 hover:bg-blue-700">
                   지금 예약하기
                 </button>
               </div>

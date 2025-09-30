@@ -130,7 +130,7 @@ const Features: React.FC = () => {
               </div>
             </div>
 
-            <p className="font-bold text-blue-800">"작은 차로 와서 큰 차로 가세요!"</p>
+            <p className="font-bold text-blue-800">&ldquo;작은 차로 와서 큰 차로 가세요!&rdquo;</p>
           </div>
 
           {/* Facilities Info */}
@@ -159,7 +159,7 @@ const Features: React.FC = () => {
               </div>
             </div>
 
-            <p className="font-bold text-green-800">"렌터카 + 편의시설 = 완벽한 서비스"</p>
+            <p className="font-bold text-green-800">&ldquo;렌터카 + 편의시설 = 완벽한 서비스&rdquo;</p>
           </div>
         </div>
 
