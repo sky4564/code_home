@@ -27,13 +27,12 @@ const Header: React.FC = () => {
           >
             <Link href="/" className="flex gap-3 items-center">
               <Image
-                src="/logo.svg"
+                src="/image/logo.png"
                 alt="차렌터카 로고"
-                width={40}
-                height={40}
+                width={180}
+                height={60}
                 className="transition-transform hover:scale-110"
               />
-              <span className="text-2xl font-bold text-blue-600">차렌터카</span>
             </Link>
           </motion.div>
 

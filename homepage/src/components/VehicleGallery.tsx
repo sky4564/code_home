@@ -555,11 +555,11 @@ const VehicleGallery: React.FC = () => {
     if (!selectedVehicle) return null;
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50" onClick={handleCloseModal}>
+      <div className="flex fixed inset-0 z-50 justify-center items-center p-4 bg-black bg-opacity-50" onClick={handleCloseModal}>
         <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-xl" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={handleCloseModal}
-            className="absolute top-4 right-4 z-10 p-2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute top-4 right-4 z-10 p-2 text-gray-400 transition-colors hover:text-gray-600"
           >
             <X size={24} />
           </button>
@@ -567,12 +567,13 @@ const VehicleGallery: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* Vehicle Image */}
             <div className="p-6">
-              <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg overflow-hidden">
+              <div className="max-h-[60vh] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg overflow-hidden flex items-center justify-center">
                 <Image
                   src={selectedVehicle.image}
                   alt={selectedVehicle.fullName}
-                  fill
-                  className="object-contain p-4"
+                  width={800}
+                  height={600}
+                  className="object-contain max-w-full max-h-full"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
@@ -581,24 +582,24 @@ const VehicleGallery: React.FC = () => {
             {/* Vehicle Details */}
             <div className="p-6">
               <div className="mb-4">
-                <span className="inline-block px-3 py-1 text-sm font-medium text-blue-600 bg-blue-100 rounded-full mb-2">
+                <span className="inline-block px-3 py-1 mb-2 text-sm font-medium text-blue-600 bg-blue-100 rounded-full">
                   {selectedVehicle.brand}
                 </span>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedVehicle.fullName}</h2>
+                <h2 className="mb-2 text-2xl font-bold text-gray-900">{selectedVehicle.fullName}</h2>
                 <p className="text-gray-600">{selectedVehicle.category}</p>
               </div>
 
               {/* Price */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">렌터카 요금</h3>
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">렌터카 요금</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="p-3 bg-gray-50 rounded-lg">
                     <p className="text-sm text-gray-600">일일 요금</p>
                     <p className="text-lg font-bold text-blue-600">
                       {selectedVehicle.price.daily.toLocaleString()}원
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="p-3 bg-gray-50 rounded-lg">
                     <p className="text-sm text-gray-600">월간 요금</p>
                     <p className="text-lg font-bold text-blue-600">
                       {selectedVehicle.price.monthly.toLocaleString()}원
@@ -609,7 +610,7 @@ const VehicleGallery: React.FC = () => {
 
               {/* Specifications */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">차량 스펙</h3>
+                <h3 className="mb-3 text-lg font-semibold text-gray-900">차량 스펙</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-gray-600">엔진</p>
@@ -636,12 +637,12 @@ const VehicleGallery: React.FC = () => {
 
               {/* Features */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">주요 특징</h3>
+                <h3 className="mb-3 text-lg font-semibold text-gray-900">주요 특징</h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedVehicle.features.map((feature, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full"
+                      className="px-3 py-1 text-sm text-blue-800 bg-blue-100 rounded-full"
                     >
                       {feature}
                     </span>
@@ -651,18 +652,18 @@ const VehicleGallery: React.FC = () => {
 
               {/* Description */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">차량 설명</h3>
-                <p className="text-gray-700 leading-relaxed">{selectedVehicle.description}</p>
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">차량 설명</h3>
+                <p className="leading-relaxed text-gray-700">{selectedVehicle.description}</p>
               </div>
 
               {/* Action Button */}
               <div className="flex gap-3">
-                <button className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                <button className="flex-1 px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">
                   예약하기
                 </button>
                 <button
                   onClick={handleCloseModal}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 font-semibold text-gray-700 rounded-lg border border-gray-300 transition-colors hover:bg-gray-50"
                 >
                   닫기
                 </button>
