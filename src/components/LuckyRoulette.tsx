@@ -117,7 +117,7 @@ const LuckyRoulette: React.FC = () => {
               const pathData = `M 50 50 L ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} Z`;
 
               return (
-                <div key={prize.id} className="absolute inset-0">
+                <div key={prize.id} className="absolute inset-0 pointer-events-none">
                   <svg className="w-full h-full" viewBox="0 0 100 100">
                     <path
                       d={pathData}
@@ -145,12 +145,12 @@ const LuckyRoulette: React.FC = () => {
             })}
 
             {/* 중앙 버튼 */}
-            <div className="flex absolute inset-0 justify-center items-center">
+            <div className="flex absolute inset-0 z-50 justify-center items-center pointer-events-none">
               <button
                 onClick={spinRoulette}
                 disabled={isSpinning}
                 className={`
-                  w-24 h-24 rounded-full font-bold text-white shadow-xl transform transition-all
+                  w-24 h-24 rounded-full font-bold text-white shadow-xl transform transition-all pointer-events-auto
                   ${isSpinning
                     ? 'bg-gray-400 scale-95 cursor-not-allowed'
                     : 'bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-110 hover:shadow-2xl'
