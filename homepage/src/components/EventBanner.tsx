@@ -1,9 +1,12 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { X } from 'lucide-react';
 
 const EventBanner: React.FC = () => {
+  const [isImageFullscreen, setIsImageFullscreen] = useState(false);
+  const [fullscreenImage, setFullscreenImage] = useState({ src: '', alt: '' });
   // 이벤트 대상 차량 데이터 (이미지와 동일하게)
   const eventVehicles = [
     {
@@ -30,7 +33,7 @@ const EventBanner: React.FC = () => {
   ];
 
   return (
-    <section className="overflow-hidden relative py-16 bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <section className="overflow-hidden relative py-8 mb-8 bg-gradient-to-br from-blue-50 via-white to-blue-100 md:py-12 md:mb-12">
       {/* 배경 장식 요소들 */}
       <div className="overflow-hidden absolute inset-0">
         {/* 다이아몬드 모양 장식들 */}
@@ -80,15 +83,26 @@ const EventBanner: React.FC = () => {
                     <div className="absolute inset-4 from-gray-400 to-gray-600 rounded-full bg-gradient-radial"></div>
 
                     {/* 차량 이미지 */}
-                    <div className="flex absolute inset-0 justify-center items-center">
+                    <div
+                      className="flex absolute inset-0 justify-center items-center cursor-pointer group"
+                      onClick={() => {
+                        setFullscreenImage({ src: '/main_cars/2026_carnival.png', alt: '2026 카니발' });
+                        setIsImageFullscreen(true);
+                      }}
+                    >
                       <Image
                         src="/main_cars/2026_carnival.png"
                         alt="2026 카니발"
                         width={350}
                         height={220}
-                        className="object-contain z-10 drop-shadow-2xl"
+                        className="object-contain z-10 transition-transform drop-shadow-2xl group-hover:scale-110"
                         priority
                       />
+                      <div className="flex absolute inset-0 justify-center items-center bg-black/0 transition-all group-hover:bg-black/10">
+                        <div className="px-3 py-1.5 text-xs font-bold text-white bg-black/60 rounded-lg opacity-0 transition-opacity group-hover:opacity-100">
+                          클릭하여 크게 보기
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -102,7 +116,11 @@ const EventBanner: React.FC = () => {
               {eventVehicles.map((vehicle, index) => (
                 <div
                   key={vehicle.id}
-                  className="flex gap-4 items-center p-4 bg-gradient-to-r from-blue-100 to-blue-200 rounded-2xl border transition-all duration-300 hover:shadow-lg border-blue-200/50"
+                  className="flex gap-4 items-center p-4 bg-gradient-to-r from-blue-100 to-blue-200 rounded-2xl border transition-all duration-300 cursor-pointer hover:shadow-lg border-blue-200/50 group"
+                  onClick={() => {
+                    setFullscreenImage({ src: vehicle.image, alt: vehicle.name });
+                    setIsImageFullscreen(true);
+                  }}
                 >
                   {/* 차량 이미지 */}
                   <div className="flex flex-shrink-0 justify-center items-center w-20 h-16 bg-white rounded-lg shadow-sm">
@@ -111,7 +129,7 @@ const EventBanner: React.FC = () => {
                       alt={vehicle.name}
                       width={80}
                       height={60}
-                      className="object-contain"
+                      className="object-contain transition-transform group-hover:scale-110"
                     />
                   </div>
 
@@ -120,7 +138,7 @@ const EventBanner: React.FC = () => {
                     <div className="mb-1 text-xs font-medium text-blue-600">
                       {vehicle.category}
                     </div>
-                    <h3 className="text-sm font-bold leading-tight text-gray-900">
+                    <h3 className="text-sm font-bold leading-tight text-gray-900 transition-colors group-hover:text-blue-600">
                       {vehicle.name}
                     </h3>
                     <p className="mt-1 text-xs text-gray-600">
@@ -134,6 +152,40 @@ const EventBanner: React.FC = () => {
 
         </div>
       </div>
+
+      {/* Fullscreen Image Viewer */}
+      {isImageFullscreen && (
+        <div
+          className="flex fixed inset-0 z-[60] justify-center items-center p-4 bg-black/95"
+          onClick={() => setIsImageFullscreen(false)}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setIsImageFullscreen(false)}
+            className="absolute top-4 right-4 z-10 p-3 text-white bg-white/10 rounded-full backdrop-blur-sm transition-colors hover:bg-white/20"
+          >
+            <X className="w-6 h-6 md:w-8 md:h-8" />
+          </button>
+
+          {/* Fullscreen Image */}
+          <div className="relative w-full h-full max-w-7xl max-h-full">
+            <Image
+              src={fullscreenImage.src}
+              alt={fullscreenImage.alt}
+              fill
+              className="object-contain"
+              sizes="100vw"
+              priority
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+
+          {/* Image Info */}
+          <div className="absolute bottom-4 left-1/2 px-6 py-3 text-white bg-black/60 rounded-full backdrop-blur-sm transition-transform transform -translate-x-1/2">
+            <p className="text-sm font-medium md:text-base">{fullscreenImage.alt}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

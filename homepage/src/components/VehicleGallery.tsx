@@ -697,7 +697,7 @@ const VehicleGallery: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-8 mb-8 bg-gray-50 md:py-12 md:mb-12">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -739,15 +739,15 @@ const VehicleGallery: React.FC = () => {
                   src={vehicle.image}
                   alt={vehicle.fullName}
                   fill
-                  className="object-contain p-2 sm:p-4 transition-transform duration-300 group-hover:scale-110"
+                  className="object-contain p-2 transition-transform duration-300 sm:p-4 group-hover:scale-110"
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 />
               </div>
               <div className="p-2 sm:p-3 md:p-4">
-                <h3 className="mb-1 text-sm sm:text-base font-bold text-gray-900 transition-colors group-hover:text-blue-600">
+                <h3 className="mb-1 text-sm font-bold text-gray-900 transition-colors sm:text-base group-hover:text-blue-600">
                   {vehicle.name}
                 </h3>
-                <p className="mb-2 text-xs sm:text-sm text-gray-600">{vehicle.category}</p>
+                <p className="mb-2 text-xs text-gray-600 sm:text-sm">{vehicle.category}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-[10px] sm:text-xs font-medium text-blue-600">
                     예약 가능
@@ -783,7 +783,6 @@ const VehicleGallery: React.FC = () => {
         {/* Stats */}
         <div className="mt-12 text-center">
           <p className="text-gray-600">
-            총 <span className="font-bold text-blue-600">{filteredVehicles.length}</span>대의 차량이 있습니다.
             {selectedCategory !== 'All' && (
               <span className="ml-2">
                 ({selectedCategory} 카테고리)

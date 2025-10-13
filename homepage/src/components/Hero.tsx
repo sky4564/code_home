@@ -53,7 +53,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="bg-white">
+    <section id="home" className="mb-8 bg-white md:mb-12">
       {/* Slider Banner Section */}
       <div className="overflow-hidden relative">
         <div className="relative h-[700px] md:h-[600px]">
@@ -174,7 +174,7 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Event Banner */}
-      <div className="py-8 bg-white">
+      <div className="py-4 bg-white md:py-6">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-block px-6 py-3 text-lg font-bold text-black bg-yellow-400 rounded-lg">
