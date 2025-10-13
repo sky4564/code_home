@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import EventBanner from '@/components/EventBanner'
+import LuckyRoulette from '@/components/LuckyRoulette'
 import VehicleGallery from '@/components/VehicleGallery'
 import EventPromotion from '@/components/EventPromotion'
 import Features from '@/components/Features'
@@ -13,6 +14,7 @@ export default function Home() {
       <Header />
       <Hero />
       <EventBanner />
+      <LuckyRoulette />
       <VehicleGallery />
       <EventPromotion />
       {/* <Features /> */}

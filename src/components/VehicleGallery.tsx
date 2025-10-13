@@ -753,7 +753,7 @@ const VehicleGallery: React.FC = () => {
                 className="overflow-hidden bg-white rounded-lg shadow-md transition-all duration-300 cursor-pointer hover:shadow-xl group"
               >
                 <div className="relative aspect-[3/2] bg-gradient-to-br from-blue-50 to-blue-100">
-                  <div className={`absolute inset-0 flex items-center justify-center ${getPadding()}`}>
+                  <div className={`flex absolute inset-0 justify-center items-center ${getPadding()}`}>
                     <div className="relative w-full h-full">
                       <Image
                         src={vehicle.image}
