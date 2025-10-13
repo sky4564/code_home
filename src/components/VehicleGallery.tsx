@@ -728,47 +728,66 @@ const VehicleGallery: React.FC = () => {
 
         {/* Vehicle Grid */}
         <div className="grid grid-cols-2 gap-3 mb-12 sm:gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-5">
-          {visibleVehicles.map((vehicle) => (
-            <div
-              key={vehicle.id}
-              onClick={() => handleVehicleClick(vehicle)}
-              className="overflow-hidden bg-white rounded-lg shadow-md transition-all duration-300 cursor-pointer hover:shadow-xl group"
-            >
-              <div className="relative aspect-[3/2] bg-gradient-to-br from-blue-50 to-blue-100">
-                <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-4">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={vehicle.image}
-                      alt={vehicle.fullName}
-                      fill
-                      className="object-contain transition-transform duration-300 group-hover:scale-110"
-                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                    />
+          {visibleVehicles.map((vehicle) => {
+            // 카테고리별 스케일 설정
+            const getScale = () => {
+              if (vehicle.category === '승합차') return 'scale-110';  // 승합차 10% 크게
+              if (vehicle.category === 'SUV') return 'scale-105';     // SUV 5% 크게
+              if (vehicle.category === '대형') return 'scale-105';     // 대형 5% 크게
+              if (vehicle.category === '경차') return 'scale-90';      // 경차 10% 작게
+              return 'scale-100';  // 중형, 준중형은 기본
+            };
+
+            // 패딩도 차량 크기에 맞춰 조정
+            const getPadding = () => {
+              if (vehicle.category === '승합차') return 'p-1 sm:p-2';   // 승합차는 패딩 작게
+              if (vehicle.category === 'SUV') return 'p-2 sm:p-3';      // SUV 패딩 작게
+              if (vehicle.category === '경차') return 'p-4 sm:p-5';      // 경차는 패딩 크게
+              return 'p-3 sm:p-4';  // 기본
+            };
+
+            return (
+              <div
+                key={vehicle.id}
+                onClick={() => handleVehicleClick(vehicle)}
+                className="overflow-hidden bg-white rounded-lg shadow-md transition-all duration-300 cursor-pointer hover:shadow-xl group"
+              >
+                <div className="relative aspect-[3/2] bg-gradient-to-br from-blue-50 to-blue-100">
+                  <div className={`absolute inset-0 flex items-center justify-center ${getPadding()}`}>
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={vehicle.image}
+                        alt={vehicle.fullName}
+                        fill
+                        className={`object-contain transition-transform duration-300 ${getScale()} group-hover:scale-110`}
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="p-2 sm:p-3 md:p-4">
+                  <h3 className="mb-1 text-sm font-bold text-gray-900 transition-colors sm:text-base group-hover:text-blue-600">
+                    {vehicle.name}
+                  </h3>
+                  <p className="mb-2 text-xs text-gray-600 sm:text-sm">{vehicle.category}</p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] sm:text-xs font-medium text-blue-600">
+                      예약 가능
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVehicleClick(vehicle);
+                      }}
+                      className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs text-white bg-blue-600 rounded-full transition-colors hover:bg-blue-700"
+                    >
+                      상세보기
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="p-2 sm:p-3 md:p-4">
-                <h3 className="mb-1 text-sm font-bold text-gray-900 transition-colors sm:text-base group-hover:text-blue-600">
-                  {vehicle.name}
-                </h3>
-                <p className="mb-2 text-xs text-gray-600 sm:text-sm">{vehicle.category}</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] sm:text-xs font-medium text-blue-600">
-                    예약 가능
-                  </span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleVehicleClick(vehicle);
-                    }}
-                    className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs text-white bg-blue-600 rounded-full transition-colors hover:bg-blue-700"
-                  >
-                    상세보기
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Load More Button */}
