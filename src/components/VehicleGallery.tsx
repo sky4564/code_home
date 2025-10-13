@@ -734,14 +734,18 @@ const VehicleGallery: React.FC = () => {
               onClick={() => handleVehicleClick(vehicle)}
               className="overflow-hidden bg-white rounded-lg shadow-md transition-all duration-300 cursor-pointer hover:shadow-xl group"
             >
-              <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-blue-100 relative overflow-hidden">
-                <Image
-                  src={vehicle.image}
-                  alt={vehicle.fullName}
-                  fill
-                  className="object-contain p-2 transition-transform duration-300 sm:p-4 group-hover:scale-110"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                />
+              <div className="relative aspect-[3/2] bg-gradient-to-br from-blue-50 to-blue-100">
+                <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-4">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={vehicle.image}
+                      alt={vehicle.fullName}
+                      fill
+                      className="object-contain transition-transform duration-300 group-hover:scale-110"
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                    />
+                  </div>
+                </div>
               </div>
               <div className="p-2 sm:p-3 md:p-4">
                 <h3 className="mb-1 text-sm font-bold text-gray-900 transition-colors sm:text-base group-hover:text-blue-600">
