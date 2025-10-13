@@ -44,23 +44,38 @@ const LuckyRoulette: React.FC = () => {
   const spinRoulette = () => {
     if (isSpinning) return;
 
+    console.log('🎰 룰렛 시작!');
     setIsSpinning(true);
     setShowResult(false);
 
     // 당첨 경품 선택
     const prize = selectPrize();
     setWonPrize(prize);
+    console.log('🎁 당첨 경품:', prize.name);
 
     // 룰렛 돌리기 (최소 3바퀴 + 당첨 위치)
     const prizeIndex = prizes.findIndex(p => p.id === prize.id);
     const degreePerPrize = 360 / prizes.length;
     const randomSpins = 3 + Math.floor(Math.random() * 3); // 3~5바퀴
     const targetRotation = randomSpins * 360 + (prizeIndex * degreePerPrize) + (degreePerPrize / 2);
+    
+    console.log('📊 회전 정보:', {
+      prizeIndex,
+      degreePerPrize,
+      randomSpins,
+      targetRotation,
+      currentRotation: rotation
+    });
 
-    setRotation(prev => prev + targetRotation);
+    setRotation(prev => {
+      const newRotation = prev + targetRotation;
+      console.log('🔄 새 회전값:', newRotation);
+      return newRotation;
+    });
 
     // 3초 후 결과 표시
     setTimeout(() => {
+      console.log('✅ 결과 표시');
       setIsSpinning(false);
       setShowResult(true);
     }, 3000);
