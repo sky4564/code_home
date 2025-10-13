@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { ChevronDown, X } from 'lucide-react';
 
@@ -28,9 +28,26 @@ interface Vehicle {
 
 const VehicleGallery: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [visibleCount, setVisibleCount] = useState(15);
+  const [visibleCount, setVisibleCount] = useState(6); // 모바일: 6개 (3줄 × 2열)
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 화면 크기에 따라 초기 visibleCount 설정
+  useEffect(() => {
+    const handleResize = () => {
+      const initialCount = window.innerWidth < 640 ? 6 : 15;
+      if (visibleCount === 6 || visibleCount === 15) {
+        setVisibleCount(initialCount);
+      }
+    };
+
+    // 초기 로드 시 설정
+    handleResize();
+
+    // 리사이즈 이벤트 리스너
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // 차량 데이터 (파일명 기반으로 생성)
   const vehicles: Vehicle[] = [
@@ -532,12 +549,16 @@ const VehicleGallery: React.FC = () => {
   const visibleVehicles = filteredVehicles.slice(0, visibleCount);
 
   const handleLoadMore = () => {
-    setVisibleCount(prev => prev + 15);
+    // 모바일: +6개, 데스크톱: +15개
+    const increment = window.innerWidth < 640 ? 6 : 15;
+    setVisibleCount(prev => prev + increment);
   };
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    setVisibleCount(15); // 카테고리 변경 시 다시 15개로 리셋
+    // 모바일: 6개, 데스크톱: 15개
+    const initialCount = window.innerWidth < 640 ? 6 : 15;
+    setVisibleCount(initialCount);
   };
 
   const handleVehicleClick = (vehicle: Vehicle) => {
@@ -706,7 +727,7 @@ const VehicleGallery: React.FC = () => {
         </div>
 
         {/* Vehicle Grid */}
-        <div className="grid grid-cols-1 gap-6 mb-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 mb-12 sm:gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-5">
           {visibleVehicles.map((vehicle) => (
             <div
               key={vehicle.id}
@@ -718,17 +739,17 @@ const VehicleGallery: React.FC = () => {
                   src={vehicle.image}
                   alt={vehicle.fullName}
                   fill
-                  className="object-contain p-4 transition-transform duration-300 group-hover:scale-110"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  className="object-contain p-2 sm:p-4 transition-transform duration-300 group-hover:scale-110"
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 />
               </div>
-              <div className="p-4">
-                <h3 className="mb-1 font-bold text-gray-900 transition-colors group-hover:text-blue-600">
+              <div className="p-2 sm:p-3 md:p-4">
+                <h3 className="mb-1 text-sm sm:text-base font-bold text-gray-900 transition-colors group-hover:text-blue-600">
                   {vehicle.name}
                 </h3>
-                <p className="mb-2 text-sm text-gray-600">{vehicle.category}</p>
+                <p className="mb-2 text-xs sm:text-sm text-gray-600">{vehicle.category}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs font-medium text-blue-600">
+                  <span className="text-[10px] sm:text-xs font-medium text-blue-600">
                     예약 가능
                   </span>
                   <button
@@ -736,7 +757,7 @@ const VehicleGallery: React.FC = () => {
                       e.stopPropagation();
                       handleVehicleClick(vehicle);
                     }}
-                    className="px-3 py-1 text-xs text-white bg-blue-600 rounded-full transition-colors hover:bg-blue-700"
+                    className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs text-white bg-blue-600 rounded-full transition-colors hover:bg-blue-700"
                   >
                     상세보기
                   </button>
