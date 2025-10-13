@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Car } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone, MessageCircle, Car } from 'lucide-react';
 import Image from 'next/image';
 
 const Hero: React.FC = () => {
@@ -13,38 +13,29 @@ const Hero: React.FC = () => {
       title: "여행의 시작과 끝,",
       subtitle: "차렌터카와 함께하세요.",
       description: "지금 바로 예약하기",
-      backgroundImage: "/background/bg1.jpeg",
-      buttons: {
-        primary: "차렌터카 본사",
-        secondary: "빠른 전화상담",
-        tertiary: "차량안내"
-      }
+      backgroundImage: "/background/bg1.jpeg"
     },
     {
       id: 2,
       title: "7인승 카니발",
       subtitle: "넓고 편안한 프리미엄 렌터카",
       description: "가족 여행의 완벽한 선택",
-      backgroundImage: "/background/bg2.jpeg",
-      buttons: {
-        primary: "차렌터카 본사",
-        secondary: "빠른 전화상담",
-        tertiary: "차량안내"
-      }
+      backgroundImage: "/background/bg2.jpeg"
     },
     {
       id: 3,
       title: "24시간 운영",
       subtitle: "언제든지 이용 가능한 렌터카 서비스",
       description: "새벽, 심야 언제든 OK",
-      backgroundImage: "/background/bg3.jpeg",
-      buttons: {
-        primary: "차렌터카 본사",
-        secondary: "빠른 전화상담",
-        tertiary: "차량안내"
-      }
+      backgroundImage: "/background/bg3.jpeg"
     }
   ];
+
+  const openChannelTalk = () => {
+    if (typeof window !== 'undefined' && (window as any).ChannelIO) {
+      (window as any).ChannelIO('showMessenger');
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -103,26 +94,45 @@ const Hero: React.FC = () => {
                     </div>
 
                     {/* Buttons */}
-                    <div className="flex flex-wrap gap-4">
-                      <button className="px-6 py-3 font-bold text-gray-900 bg-white rounded-lg shadow-lg transition-all transform hover:bg-gray-100 hover:scale-105">
-                        <span className="flex gap-2 items-center">
-                          {slide.buttons.primary}
+                    <div className="flex flex-col gap-3 max-w-sm">
+                      <a
+                        href="tel:032-427-5500"
+                        className="w-full px-6 py-4 font-semibold text-gray-900 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl transition-all hover:bg-white hover:shadow-2xl hover:translate-x-2 border-l-4 border-green-600"
+                      >
+                        <span className="flex gap-3 items-center justify-start">
+                          <div className="p-2 bg-green-50 rounded-lg">
+                            <Phone className="w-5 h-5 text-green-600" />
+                          </div>
+                          <div className="text-left">
+                            <div className="text-sm text-gray-600">빠른 전화상담</div>
+                            <div className="text-lg font-bold">032-427-5500</div>
+                          </div>
+                        </span>
+                      </a>
+
+                      <button
+                        onClick={openChannelTalk}
+                        className="w-full px-6 py-4 font-semibold text-gray-900 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl transition-all hover:bg-white hover:shadow-2xl hover:translate-x-2 border-l-4 border-blue-600"
+                      >
+                        <span className="flex gap-3 items-center justify-start">
+                          <div className="p-2 bg-blue-50 rounded-lg">
+                            <MessageCircle className="w-5 h-5 text-blue-600" />
+                          </div>
+                          <span className="text-left">채팅으로 문의</span>
                         </span>
                       </button>
 
-                      <button className="px-6 py-3 font-bold text-white bg-red-500 rounded-lg shadow-lg transition-all transform hover:bg-red-600 hover:scale-105">
-                        <span className="flex gap-2 items-center">
-                          <Phone className="w-5 h-5" />
-                          {slide.buttons.secondary}
+                      <a
+                        href="/vehicles"
+                        className="w-full px-6 py-4 font-semibold text-gray-900 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl transition-all hover:bg-white hover:shadow-2xl hover:translate-x-2 border-l-4 border-purple-600"
+                      >
+                        <span className="flex gap-3 items-center justify-start">
+                          <div className="p-2 bg-purple-50 rounded-lg">
+                            <Car className="w-5 h-5 text-purple-600" />
+                          </div>
+                          <span className="text-left">차량안내</span>
                         </span>
-                      </button>
-
-                      <button className="px-6 py-3 font-bold text-white bg-blue-600 rounded-lg shadow-lg transition-all transform hover:bg-blue-700 hover:scale-105">
-                        <span className="flex gap-2 items-center">
-                          <Car className="w-5 h-5" />
-                          {slide.buttons.tertiary}
-                        </span>
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>

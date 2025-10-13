@@ -37,8 +37,8 @@ const Header: React.FC = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden space-x-6 lg:space-x-8 md:flex">
-            <Link href="/" className="text-gray-700 transition-colors duration-200 hover:text-blue-600">
+          <nav className="hidden space-x-2 sm:space-x-4 lg:space-x-6 xl:space-x-8 md:flex md:flex-wrap md:items-center">
+            <Link href="/" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
               홈
             </Link>
 
@@ -46,10 +46,10 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => toggleDropdown('vehicle')}
-                className="flex items-center text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
               >
                 차량/요금 안내
-                <ChevronDown className="ml-1 w-4 h-4" />
+                <ChevronDown className="ml-1 w-3 h-3 lg:w-4 lg:h-4" />
               </button>
               <AnimatePresence>
                 {activeDropdown === 'vehicle' && (
@@ -61,11 +61,11 @@ const Header: React.FC = () => {
                     className="absolute left-0 top-full z-50 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg"
                   >
                     <div className="py-1">
-                      <a href="/차량안내" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량안내</a>
-                      <a href="/차량관리" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량관리</a>
-                      <a href="/이용요금-안내" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">이용요금 안내</a>
-                      <a href="/보험안내" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">보험안내</a>
-                      <a href="/대여자격" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">대여자격</a>
+                      <a href="/vehicles" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량안내</a>
+                      <a href="/vehicle-management" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량관리</a>
+                      <a href="/pricing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">이용요금 안내</a>
+                      <a href="/insurance" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">보험안내</a>
+                      <a href="/rental-requirements" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">대여자격</a>
                     </div>
                   </motion.div>
                 )}
@@ -76,10 +76,10 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => toggleDropdown('reservation')}
-                className="flex items-center text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
               >
                 예약/상담
-                <ChevronDown className="ml-1 w-4 h-4" />
+                <ChevronDown className="ml-1 w-3 h-3 lg:w-4 lg:h-4" />
               </button>
               <AnimatePresence>
                 {activeDropdown === 'reservation' && (
@@ -104,10 +104,10 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => toggleDropdown('service')}
-                className="flex items-center text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
               >
                 서비스
-                <ChevronDown className="ml-1 w-4 h-4" />
+                <ChevronDown className="ml-1 w-3 h-3 lg:w-4 lg:h-4" />
               </button>
               <AnimatePresence>
                 {activeDropdown === 'service' && (
@@ -134,10 +134,10 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => toggleDropdown('airport')}
-                className="flex items-center text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
               >
                 공항 서비스
-                <ChevronDown className="ml-1 w-4 h-4" />
+                <ChevronDown className="ml-1 w-3 h-3 lg:w-4 lg:h-4" />
               </button>
               <AnimatePresence>
                 {activeDropdown === 'airport' && (
@@ -162,10 +162,10 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => toggleDropdown('customer')}
-                className="flex items-center text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
               >
                 고객센터
-                <ChevronDown className="ml-1 w-4 h-4" />
+                <ChevronDown className="ml-1 w-3 h-3 lg:w-4 lg:h-4" />
               </button>
               <AnimatePresence>
                 {activeDropdown === 'customer' && (
@@ -188,7 +188,7 @@ const Header: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            <a href="/찾아오시는길" className="text-gray-700 transition-colors duration-200 hover:text-blue-600">
+            <a href="/찾아오시는길" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
               오시는 길
             </a>
           </nav>
@@ -229,11 +229,11 @@ const Header: React.FC = () => {
                 {/* 차량/요금 안내 */}
                 <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">차량/요금 안내</p>
-                  <a href="/차량안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량안내</a>
-                  <a href="/차량관리" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량관리</a>
-                  <a href="/이용요금-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">이용요금 안내</a>
-                  <a href="/보험안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">보험안내</a>
-                  <a href="/대여자격" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">대여자격</a>
+                  <a href="/vehicles" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량안내</a>
+                  <a href="/vehicle-management" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량관리</a>
+                  <a href="/pricing" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">이용요금 안내</a>
+                  <a href="/insurance" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">보험안내</a>
+                  <a href="/rental-requirements" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">대여자격</a>
                 </div>
 
                 {/* 예약/상담 */}
