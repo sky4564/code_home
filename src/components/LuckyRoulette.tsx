@@ -31,7 +31,7 @@ const LuckyRoulette: React.FC = () => {
   const selectPrize = (): Prize => {
     const random = Math.random() * 100;
     let cumulative = 0;
-    
+
     for (const prize of prizes) {
       cumulative += prize.probability;
       if (random <= cumulative) {
@@ -56,7 +56,7 @@ const LuckyRoulette: React.FC = () => {
     const degreePerPrize = 360 / prizes.length;
     const randomSpins = 3 + Math.floor(Math.random() * 3); // 3~5바퀴
     const targetRotation = randomSpins * 360 + (prizeIndex * degreePerPrize) + (degreePerPrize / 2);
-    
+
     setRotation(prev => prev + targetRotation);
 
     // 3초 후 결과 표시
@@ -69,7 +69,7 @@ const LuckyRoulette: React.FC = () => {
   return (
     <div className="relative py-12 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
       <div className="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
-        
+
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="inline-flex gap-2 items-center px-4 py-2 mb-4 text-yellow-700 bg-yellow-100 rounded-full border-2 border-yellow-300">
@@ -86,14 +86,14 @@ const LuckyRoulette: React.FC = () => {
 
         {/* Roulette Wheel */}
         <div className="relative mx-auto mb-8 w-80 h-80 sm:w-96 sm:h-96">
-          
+
           {/* 포인터 (위쪽 화살표) */}
-          <div className="absolute -top-4 left-1/2 z-20 w-0 h-0 border-8 border-transparent transform -translate-x-1/2 border-t-red-600 drop-shadow-lg">
+          <div className="absolute -top-4 left-1/2 z-20 w-0 h-0 border-8 border-transparent drop-shadow-lg transform -translate-x-1/2 border-t-red-600">
             <div className="absolute -top-3 left-1/2 w-4 h-8 bg-red-600 rounded-full transform -translate-x-1/2"></div>
           </div>
 
           {/* 룰렛 원판 */}
-          <div 
+          <div
             className="relative w-full h-full rounded-full shadow-2xl"
             style={{
               transform: `rotate(${rotation}deg)`,
@@ -104,29 +104,40 @@ const LuckyRoulette: React.FC = () => {
             {prizes.map((prize, index) => {
               const degreePerPrize = 360 / prizes.length;
               const startAngle = index * degreePerPrize;
+              const endAngle = startAngle + degreePerPrize;
               
+              // 부채꼴 그리기 (SVG 사용)
+              const radius = 50; // 반지름 (%)
+              const startX = 50 + radius * Math.sin((startAngle * Math.PI) / 180);
+              const startY = 50 - radius * Math.cos((startAngle * Math.PI) / 180);
+              const endX = 50 + radius * Math.sin((endAngle * Math.PI) / 180);
+              const endY = 50 - radius * Math.cos((endAngle * Math.PI) / 180);
+              
+              const largeArcFlag = degreePerPrize > 180 ? 1 : 0;
+              const pathData = `M 50 50 L ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} Z`;
+
               return (
-                <div
-                  key={prize.id}
-                  className="absolute inset-0"
-                  style={{
-                    transform: `rotate(${startAngle}deg)`,
-                    clipPath: `polygon(50% 50%, 50% 0%, ${50 + Math.tan((degreePerPrize * Math.PI) / 360) * 50}% 0%)`,
-                  }}
-                >
+                <div key={prize.id} className="absolute inset-0">
+                  <svg className="w-full h-full" viewBox="0 0 100 100">
+                    <path
+                      d={pathData}
+                      fill={prize.color}
+                      stroke="white"
+                      strokeWidth="0.5"
+                    />
+                  </svg>
+                  
+                  {/* 텍스트는 별도로 */}
                   <div
-                    className="w-full h-full"
-                    style={{ backgroundColor: prize.color }}
+                    className="absolute top-0 left-0 w-full h-full flex items-start justify-center"
+                    style={{
+                      transform: `rotate(${startAngle + degreePerPrize / 2}deg)`,
+                      transformOrigin: 'center center',
+                    }}
                   >
-                    <div
-                      className="absolute top-8 left-1/2 text-center text-white transform -translate-x-1/2"
-                      style={{ 
-                        transform: `translateX(-50%) rotate(${degreePerPrize / 2}deg)`,
-                        width: '80px',
-                      }}
-                    >
+                    <div className="mt-8 text-center text-white">
                       <div className="text-2xl mb-1">{prize.emoji}</div>
-                      <div className="text-[10px] font-bold leading-tight">{prize.name}</div>
+                      <div className="text-[10px] font-bold leading-tight px-2">{prize.name}</div>
                     </div>
                   </div>
                 </div>
@@ -134,14 +145,14 @@ const LuckyRoulette: React.FC = () => {
             })}
 
             {/* 중앙 버튼 */}
-            <div className="absolute inset-0 flex justify-center items-center">
+            <div className="flex absolute inset-0 justify-center items-center">
               <button
                 onClick={spinRoulette}
                 disabled={isSpinning}
                 className={`
                   w-24 h-24 rounded-full font-bold text-white shadow-xl transform transition-all
-                  ${isSpinning 
-                    ? 'bg-gray-400 cursor-not-allowed scale-95' 
+                  ${isSpinning
+                    ? 'bg-gray-400 scale-95 cursor-not-allowed'
                     : 'bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-110 hover:shadow-2xl'
                   }
                 `}
@@ -152,14 +163,14 @@ const LuckyRoulette: React.FC = () => {
           </div>
 
           {/* 외곽 테두리 */}
-          <div className="absolute inset-0 border-8 border-yellow-400 rounded-full pointer-events-none"></div>
+          <div className="absolute inset-0 rounded-full border-8 border-yellow-400 pointer-events-none"></div>
         </div>
 
         {/* 결과 팝업 */}
         {showResult && wonPrize && (
-          <div className="flex fixed inset-0 z-50 justify-center items-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="flex fixed inset-0 z-50 justify-center items-center p-4 backdrop-blur-sm bg-black/60">
             <div className="relative p-8 w-full max-w-md bg-white rounded-2xl shadow-2xl animate-bounce">
-              
+
               {/* 닫기 버튼 */}
               <button
                 onClick={() => setShowResult(false)}
@@ -177,7 +188,7 @@ const LuckyRoulette: React.FC = () => {
                 <p className="mb-6 text-3xl font-bold" style={{ color: wonPrize.color }}>
                   {wonPrize.name}
                 </p>
-                
+
                 {wonPrize.id !== 1 && (
                   <div className="p-4 mb-6 bg-blue-50 rounded-lg">
                     <p className="text-sm text-gray-700">
