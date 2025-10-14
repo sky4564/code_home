@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Megaphone, X } from 'lucide-react';
+import LuckyRoulette from './LuckyRoulette';
 
 interface Event {
   id: number;
@@ -11,13 +12,23 @@ interface Event {
   image: string;
   period: string;
   detailDescription?: string;
+  isRoulette?: boolean;
 }
 
 const EventPromotion: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isImageFullscreen, setIsImageFullscreen] = useState(false);
+  const [showRoulette, setShowRoulette] = useState(false);
 
   const events: Event[] = [
+    {
+      id: 0,
+      title: '행운의 룰렛 이벤트',
+      description: '룰렛을 돌려 다양한 혜택을 받아가세요!',
+      image: '/event_bnr/도장이벤트 상단.png', // 임시 이미지
+      period: '이벤트 진행중',
+      isRoulette: true,
+    },
     {
       id: 1,
       title: '도장 이벤트',
@@ -131,7 +142,13 @@ const EventPromotion: React.FC = () => {
           {events.map((event) => (
             <div
               key={event.id}
-              onClick={() => setSelectedEvent(event)}
+              onClick={() => {
+                if (event.isRoulette) {
+                  setShowRoulette(true);
+                } else {
+                  setSelectedEvent(event);
+                }
+              }}
               className="overflow-hidden relative bg-white rounded-2xl shadow-xl transition-all duration-300 cursor-pointer hover:shadow-2xl hover:-translate-y-1"
             >
               {/* 이벤트 이미지 */}
@@ -266,6 +283,24 @@ const EventPromotion: React.FC = () => {
             {/* Image Info */}
             <div className="absolute bottom-4 left-1/2 px-6 py-3 text-white rounded-full backdrop-blur-sm transition-transform transform -translate-x-1/2 bg-black/60">
               <p className="text-sm font-medium md:text-base">{selectedEvent.title}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Roulette Modal */}
+        {showRoulette && (
+          <div className="flex fixed inset-0 z-50 justify-center items-center p-4 backdrop-blur-sm bg-black/60 animate-fadeIn">
+            <div className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+              {/* 닫기 버튼 */}
+              <button
+                onClick={() => setShowRoulette(false)}
+                className="absolute top-4 right-4 z-50 p-2 text-gray-400 rounded-full transition-colors hover:bg-gray-100 hover:text-gray-600"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* 룰렛 컴포넌트 */}
+              <LuckyRoulette />
             </div>
           </div>
         )}
