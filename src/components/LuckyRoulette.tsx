@@ -18,13 +18,19 @@ const LuckyRoulette: React.FC = () => {
   const [wonPrize, setWonPrize] = useState<Prize | null>(null);
   const [hasSpunToday, setHasSpunToday] = useState(false);
   const [lastSpinDate, setLastSpinDate] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false); // 클라이언트 마운트 확인
 
   // 컴포넌트 마운트 시 오늘 이미 돌렸는지 확인
   useEffect(() => {
+    // 클라이언트에서만 실행
+    setIsClient(true);
+    
     const checkLastSpin = () => {
+      if (typeof window === 'undefined') return;
+      
       const lastSpin = localStorage.getItem('rouletteLastSpin');
       const today = new Date().toDateString();
-      
+
       if (lastSpin === today) {
         setHasSpunToday(true);
         setLastSpinDate(today);
@@ -62,7 +68,7 @@ const LuckyRoulette: React.FC = () => {
   };
 
   const spinRoulette = () => {
-    if (isSpinning || hasSpunToday) return;
+    if (isSpinning || hasSpunToday || typeof window === 'undefined') return;
 
     console.log('🎰 룰렛 시작!');
     setIsSpinning(true);
@@ -112,7 +118,7 @@ const LuckyRoulette: React.FC = () => {
       console.log('✅ 결과 표시');
       setIsSpinning(false);
       setShowResult(true);
-      
+
       // 룰렛을 처음 위치(0도)로 리셋 (transition 없이 즉시)
       // 팝업이 떠있어서 사용자는 눈치채지 못함
       setRotation(0);
@@ -211,7 +217,7 @@ const LuckyRoulette: React.FC = () => {
                 }
               `}
             >
-              <span className="whitespace-pre-line text-xs sm:text-sm">
+              <span className="text-xs whitespace-pre-line sm:text-sm">
                 {isSpinning ? '돌아가는중...' : hasSpunToday ? '오늘\n참여완료' : 'START!'}
               </span>
             </button>
