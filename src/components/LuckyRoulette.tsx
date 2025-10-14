@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Gift, X } from 'lucide-react';
 
 interface Prize {
@@ -16,6 +16,26 @@ const LuckyRoulette: React.FC = () => {
   const [rotation, setRotation] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [wonPrize, setWonPrize] = useState<Prize | null>(null);
+  const [hasSpunToday, setHasSpunToday] = useState(false);
+  const [lastSpinDate, setLastSpinDate] = useState<string | null>(null);
+
+  // 컴포넌트 마운트 시 오늘 이미 돌렸는지 확인
+  useEffect(() => {
+    const checkLastSpin = () => {
+      const lastSpin = localStorage.getItem('rouletteLastSpin');
+      const today = new Date().toDateString();
+      
+      if (lastSpin === today) {
+        setHasSpunToday(true);
+        setLastSpinDate(today);
+        console.log('🚫 오늘 이미 룰렛을 돌렸습니다.');
+      } else {
+        console.log('✅ 오늘 룰렛 참여 가능!');
+      }
+    };
+
+    checkLastSpin();
+  }, []);
 
   // 경품 목록 (확률 합계 = 100)
   const prizes: Prize[] = [
@@ -42,11 +62,17 @@ const LuckyRoulette: React.FC = () => {
   };
 
   const spinRoulette = () => {
-    if (isSpinning) return;
+    if (isSpinning || hasSpunToday) return;
 
     console.log('🎰 룰렛 시작!');
     setIsSpinning(true);
     setShowResult(false);
+
+    // 오늘 날짜 저장
+    const today = new Date().toDateString();
+    localStorage.setItem('rouletteLastSpin', today);
+    setHasSpunToday(true);
+    setLastSpinDate(today);
 
     // 당첨 경품 선택
     const prize = selectPrize();
@@ -175,17 +201,19 @@ const LuckyRoulette: React.FC = () => {
             {/* 중앙 버튼 */}
             <button
               onClick={spinRoulette}
-              disabled={isSpinning}
+              disabled={isSpinning || hasSpunToday}
               className={`
                 absolute top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2
                 w-24 h-24 rounded-full font-bold text-white shadow-xl transition-all
-                ${isSpinning
+                ${isSpinning || hasSpunToday
                   ? 'bg-gray-400 scale-95 cursor-not-allowed'
                   : 'bg-gradient-to-br from-yellow-400 to-orange-500 cursor-pointer hover:scale-110 hover:shadow-2xl'
                 }
               `}
             >
-              {isSpinning ? '돌아가는중...' : 'START!'}
+              <span className="whitespace-pre-line text-xs sm:text-sm">
+                {isSpinning ? '돌아가는중...' : hasSpunToday ? '오늘\n참여완료' : 'START!'}
+              </span>
             </button>
           </div>
 
@@ -245,10 +273,16 @@ const LuckyRoulette: React.FC = () => {
         <div className="p-6 text-center bg-white rounded-xl shadow-md">
           <h4 className="mb-3 text-lg font-bold text-gray-900">🎁 이벤트 안내</h4>
           <ul className="space-y-2 text-sm text-gray-600">
-            <li>• 차량 예약 고객님께 1일 1회 참여 기회 제공</li>
+            <li>• 1일 1회 참여 가능 (자정 초기화)</li>
             <li>• 당첨된 혜택은 예약 시 말씀해주시면 적용됩니다</li>
             <li>• 전화 예약: 032-427-5500</li>
           </ul>
+          {hasSpunToday && (
+            <div className="p-3 mt-4 bg-gray-100 rounded-lg">
+              <p className="text-sm font-bold text-gray-700">✅ 오늘 참여 완료!</p>
+              <p className="mt-1 text-xs text-gray-600">내일 다시 도전해주세요 😊</p>
+            </div>
+          )}
         </div>
 
       </div>
