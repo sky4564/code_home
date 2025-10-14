@@ -11,9 +11,12 @@ interface Prize {
   emoji: string;
 }
 
-interface WinHistory {
-  date: string;
-  prize: Prize;
+interface RouletteData {
+  lastSpinDate: string;
+  winHistory: {
+    date: string;
+    prize: Prize;
+  } | null;
 }
 
 const LuckyRoulette: React.FC = () => {
@@ -22,9 +25,9 @@ const LuckyRoulette: React.FC = () => {
   const [showResult, setShowResult] = useState(false);
   const [wonPrize, setWonPrize] = useState<Prize | null>(null);
   const [hasSpunToday, setHasSpunToday] = useState(false);
-  const [lastSpinDate, setLastSpinDate] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false); // 클라이언트 마운트 확인
-  const [todayWinHistory, setTodayWinHistory] = useState<WinHistory | null>(null);
+  const [todayWinHistory, setTodayWinHistory] = useState<RouletteData['winHistory']>(null);
+  const STORAGE_KEY = 'luckyRouletteData';
 
   // 컴포넌트 마운트 시 오늘 이미 돌렸는지 확인
   useEffect(() => {
@@ -34,24 +37,21 @@ const LuckyRoulette: React.FC = () => {
     const checkLastSpin = () => {
       if (typeof window === 'undefined') return;
 
-      const lastSpin = localStorage.getItem('rouletteLastSpin');
+      const storedData = localStorage.getItem(STORAGE_KEY);
       const today = new Date().toDateString();
 
-      if (lastSpin === today) {
-        setHasSpunToday(true);
-        setLastSpinDate(today);
+      if (storedData) {
+        const data: RouletteData = JSON.parse(storedData);
         
-        // 오늘의 당첨 내역 불러오기
-        const historyData = localStorage.getItem('rouletteWinHistory');
-        if (historyData) {
-          const history: WinHistory = JSON.parse(historyData);
-          if (history.date === today) {
-            setTodayWinHistory(history);
-            setWonPrize(history.prize);
-            console.log('📜 오늘 당첨 내역:', history.prize.name);
-          }
+        if (data.lastSpinDate === today && data.winHistory) {
+          setHasSpunToday(true);
+          setTodayWinHistory(data.winHistory);
+          setWonPrize(data.winHistory.prize);
+          console.log('📜 오늘 당첨 내역:', data.winHistory.prize.name);
+          console.log('🚫 오늘 이미 룰렛을 돌렸습니다.');
+        } else {
+          console.log('✅ 오늘 룰렛 참여 가능!');
         }
-        console.log('🚫 오늘 이미 룰렛을 돌렸습니다.');
       } else {
         console.log('✅ 오늘 룰렛 참여 가능!');
       }
@@ -91,23 +91,9 @@ const LuckyRoulette: React.FC = () => {
     setIsSpinning(true);
     setShowResult(false);
 
-    // 오늘 날짜 저장
-    const today = new Date().toDateString();
-    localStorage.setItem('rouletteLastSpin', today);
-    setHasSpunToday(true);
-    setLastSpinDate(today);
-
     // 당첨 경품 선택
     const prize = selectPrize();
     setWonPrize(prize);
-    
-    // 당첨 내역 저장
-    const winHistory: WinHistory = {
-      date: today,
-      prize: prize
-    };
-    localStorage.setItem('rouletteWinHistory', JSON.stringify(winHistory));
-    setTodayWinHistory(winHistory);
     
     console.log('🎁 당첨 경품:', prize.name);
 
@@ -139,16 +125,29 @@ const LuckyRoulette: React.FC = () => {
       return newRotation;
     });
 
-    // 3초 후 결과 표시 및 룰렛 초기화
+    // 3초 후 결과 표시 및 데이터 저장
     setTimeout(() => {
       console.log('✅ 결과 표시');
       setIsSpinning(false);
       setShowResult(true);
 
+      // 오늘 날짜와 당첨 내역 저장
+      const today = new Date().toDateString();
+      const rouletteData: RouletteData = {
+        lastSpinDate: today,
+        winHistory: {
+          date: today,
+          prize: prize
+        }
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rouletteData));
+      setHasSpunToday(true);
+      setTodayWinHistory(rouletteData.winHistory);
+
       // 룰렛을 처음 위치(0도)로 리셋 (transition 없이 즉시)
       // 팝업이 떠있어서 사용자는 눈치채지 못함
       setRotation(0);
-      console.log('🔄 룰렛 위치 초기화 완료');
+      console.log('🔄 룰렛 위치 초기화 및 데이터 저장 완료');
     }, 3000);
   };
 
@@ -204,14 +203,14 @@ const LuckyRoulette: React.FC = () => {
                   <span className="font-bold">오늘의 당첨 내역</span>
                 </div>
               </div>
-              
+
               <div className="text-center">
                 <div className="mb-4 text-8xl">{todayWinHistory.prize.emoji}</div>
                 <h3 className="mb-2 text-xl font-bold text-gray-900">
                   {todayWinHistory.prize.id === 1 ? '아쉽네요!' : '축하합니다! 🎉'}
                 </h3>
-                <p 
-                  className="mb-4 text-3xl font-bold" 
+                <p
+                  className="mb-4 text-3xl font-bold"
                   style={{ color: todayWinHistory.prize.color }}
                 >
                   {todayWinHistory.prize.name}
