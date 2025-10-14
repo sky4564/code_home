@@ -25,7 +25,7 @@ const EventPromotion: React.FC = () => {
       id: 0,
       title: '행운의 룰렛 이벤트',
       description: '룰렛을 돌려 다양한 혜택을 받아가세요!',
-      image: '/event_bnr/도장이벤트 상단.png', // 임시 이미지
+      image: '/event_bnr/룰렛이미지.png',
       period: '이벤트 진행중',
       isRoulette: true,
     },
