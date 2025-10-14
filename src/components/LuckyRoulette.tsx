@@ -143,7 +143,7 @@ const LuckyRoulette: React.FC = () => {
               룰렛을 돌려 다양한 혜택을 받아가세요!
             </p>
           </div>
-          <div className="relative mx-auto mb-8 w-80 h-80 sm:w-96 sm:h-96 bg-gray-100 rounded-full animate-pulse" />
+          <div className="relative mx-auto mb-8 w-80 h-80 bg-gray-100 rounded-full animate-pulse sm:w-96 sm:h-96" />
         </div>
       </div>
     );
@@ -276,7 +276,7 @@ const LuckyRoulette: React.FC = () => {
                 {wonPrize.id !== 1 && (
                   <div className="p-4 mb-6 bg-blue-50 rounded-lg">
                     <p className="text-sm text-gray-700">
-                      📞 전화 예약 시 "룰렛 이벤트 당첨"이라고 말씀해주세요!
+                      📞 전화 예약 시 &ldquo;룰렛 이벤트 당첨&rdquo;이라고 말씀해주세요!
                     </p>
                     <p className="mt-2 text-lg font-bold text-blue-600">
                       032-427-5500

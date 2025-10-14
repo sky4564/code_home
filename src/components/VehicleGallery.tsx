@@ -47,10 +47,10 @@ const VehicleGallery: React.FC = () => {
     // 리사이즈 이벤트 리스너
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [visibleCount]);
 
-  // 차량 데이터 (파일명 기반으로 생성)
-  const vehicles: Vehicle[] = [
+  // 차량 데이터 (파일명 기반으로 생성) - useMemo로 최적화
+  const vehicles: Vehicle[] = useMemo(() => [
     // 승합차 (Van)
     {
       id: 'carnival_van',
@@ -532,7 +532,7 @@ const VehicleGallery: React.FC = () => {
       features: ['해치백', '젊은 디자인', '경제성'],
       description: '쉐보레의 경차로 젊은 감각의 디자인과 경제적인 운행을 제공합니다.'
     },
-  ];
+  ], []);
 
   // 카테고리 목록
   const categories = ['All', '승합차', 'SUV', '대형', '중대형', '준형', '중형', '경차'];

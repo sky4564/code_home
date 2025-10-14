@@ -45,7 +45,7 @@ const Hero: React.FC = () => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
