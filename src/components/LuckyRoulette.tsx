@@ -58,7 +58,7 @@ const LuckyRoulette: React.FC = () => {
     const degreePerPrize = 360 / prizes.length;
     const randomSpins = 3 + Math.floor(Math.random() * 3); // 3~5바퀴
     const targetRotation = randomSpins * 360 + (prizeIndex * degreePerPrize) + (degreePerPrize / 2);
-    
+
     console.log('📊 회전 정보:', {
       prizeIndex,
       degreePerPrize,
@@ -120,14 +120,14 @@ const LuckyRoulette: React.FC = () => {
               const degreePerPrize = 360 / prizes.length;
               const startAngle = index * degreePerPrize;
               const endAngle = startAngle + degreePerPrize;
-              
+
               // 부채꼴 그리기 (SVG 사용)
               const radius = 50; // 반지름 (%)
               const startX = 50 + radius * Math.sin((startAngle * Math.PI) / 180);
               const startY = 50 - radius * Math.cos((startAngle * Math.PI) / 180);
               const endX = 50 + radius * Math.sin((endAngle * Math.PI) / 180);
               const endY = 50 - radius * Math.cos((endAngle * Math.PI) / 180);
-              
+
               const largeArcFlag = degreePerPrize > 180 ? 1 : 0;
               const pathData = `M 50 50 L ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} Z`;
 
@@ -141,7 +141,7 @@ const LuckyRoulette: React.FC = () => {
                       strokeWidth="0.5"
                     />
                   </svg>
-                  
+
                   {/* 텍스트는 별도로 */}
                   <div
                     className="absolute top-0 left-0 w-full h-full flex items-start justify-center"
@@ -160,21 +160,20 @@ const LuckyRoulette: React.FC = () => {
             })}
 
             {/* 중앙 버튼 */}
-            <div className="flex absolute inset-0 z-50 justify-center items-center pointer-events-none">
-              <button
-                onClick={spinRoulette}
-                disabled={isSpinning}
-                className={`
-                  w-24 h-24 rounded-full font-bold text-white shadow-xl transform transition-all pointer-events-auto
-                  ${isSpinning
-                    ? 'bg-gray-400 scale-95 cursor-not-allowed'
-                    : 'bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-110 hover:shadow-2xl'
-                  }
-                `}
-              >
-                {isSpinning ? '돌아가는중...' : 'START!'}
-              </button>
-            </div>
+            <button
+              onClick={spinRoulette}
+              disabled={isSpinning}
+              className={`
+                absolute top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2
+                w-24 h-24 rounded-full font-bold text-white shadow-xl transition-all
+                ${isSpinning
+                  ? 'bg-gray-400 scale-95 cursor-not-allowed'
+                  : 'bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-110 hover:shadow-2xl cursor-pointer'
+                }
+              `}
+            >
+              {isSpinning ? '돌아가는중...' : 'START!'}
+            </button>
           </div>
 
           {/* 외곽 테두리 */}
