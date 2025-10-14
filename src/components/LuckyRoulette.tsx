@@ -274,34 +274,55 @@ const LuckyRoulette: React.FC = () => {
                 </p>
 
                 {wonPrize.id !== 1 && (
-                  <div className="space-y-4 mb-6">
+                  <div className="my-6 space-y-3">
                     {/* 전화 문의 */}
-                    <div className="p-4 bg-blue-50 rounded-lg">
+                    <div className="p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                       <p className="mb-2 text-sm font-bold text-blue-800">
                         📞 전화로 예약하기
                       </p>
-                      <p className="text-sm text-gray-700">
+                      <p className="mb-3 text-sm text-gray-700">
                         예약 시 &ldquo;룰렛 이벤트 당첨&rdquo;이라고 말씀해주세요!
                       </p>
-                      <p className="mt-2 text-lg font-bold text-blue-600">
-                        032-427-5500
-                      </p>
+                      <a
+                        href="tel:032-427-5500"
+                        className="block py-3 mt-2 text-lg font-bold text-center text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600"
+                      >
+                        📞 032-427-5500 전화걸기
+                      </a>
                     </div>
 
                     {/* 채팅 문의 */}
-                    <div className="p-4 bg-green-50 rounded-lg">
+                    <div className="p-4 bg-green-50 rounded-lg border-2 border-green-200">
                       <p className="mb-2 text-sm font-bold text-green-800">
                         💬 채팅으로 예약하기
                       </p>
-                      <p className="text-sm text-gray-700">
+                      <p className="mb-2 text-sm text-gray-700">
                         1. 이 화면을 캡처해주세요
                       </p>
-                      <p className="text-sm text-gray-700">
+                      <p className="mb-2 text-sm text-gray-700">
                         2. 채팅으로 캡처 사진 전송
                       </p>
-                      <p className="text-sm text-gray-700">
+                      <p className="mb-3 text-sm text-gray-700">
                         3. 예약 확정 시 쿠폰 사용 가능
                       </p>
+                      <div className="flex gap-2">
+                        <a
+                          href="http://pf.kakao.com/_XxgxjyK/chat"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-1 gap-2 justify-center items-center py-3 font-bold text-center text-gray-900 bg-yellow-400 rounded-lg transition-colors hover:bg-yellow-500"
+                        >
+                          💬 카카오톡 상담
+                        </a>
+                        <a
+                          href="https://pf.kakao.com/_XxgxjyK"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-1 gap-2 justify-center items-center py-3 font-bold text-center text-white bg-green-600 rounded-lg transition-colors hover:bg-green-700"
+                        >
+                          ➕ 채널 추가
+                        </a>
+                      </div>
                     </div>
 
                     {/* 쿠폰 사용 기준 */}
