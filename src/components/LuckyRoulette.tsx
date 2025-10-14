@@ -57,7 +57,7 @@ const LuckyRoulette: React.FC = () => {
     const prizeIndex = prizes.findIndex(p => p.id === prize.id);
     const degreePerPrize = 360 / prizes.length;
     const randomSpins = 3 + Math.floor(Math.random() * 3); // 3~5바퀴
-    
+
     // 화살표는 위쪽(12시 방향)에 있으므로, 당첨 경품이 위로 오도록 회전
     // prizeIndex * degreePerPrize = 해당 경품의 시작 각도
     // degreePerPrize / 2 = 경품의 중앙
@@ -81,11 +81,16 @@ const LuckyRoulette: React.FC = () => {
       return newRotation;
     });
 
-    // 3초 후 결과 표시
+    // 3초 후 결과 표시 및 룰렛 초기화
     setTimeout(() => {
       console.log('✅ 결과 표시');
       setIsSpinning(false);
       setShowResult(true);
+      
+      // 룰렛을 처음 위치(0도)로 리셋 (transition 없이 즉시)
+      // 팝업이 떠있어서 사용자는 눈치채지 못함
+      setRotation(0);
+      console.log('🔄 룰렛 위치 초기화 완료');
     }, 3000);
   };
 
