@@ -1,10 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Phone, MessageCircle, Car } from 'lucide-react';
+import { Phone, MessageCircle, Car, X } from 'lucide-react';
 import Image from 'next/image';
 import LuckyRoulette from './LuckyRoulette';
-import { X } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -46,14 +45,6 @@ const Hero: React.FC = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [slides.length]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
 
   return (
     <section id="home" className="mb-8 bg-white md:mb-12">
@@ -143,22 +134,6 @@ const Hero: React.FC = () => {
             </div>
           ))}
         </div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 p-3 text-white rounded-full backdrop-blur-sm transition-all transform -translate-y-1/2 bg-white/20 hover:bg-white/30 group"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="w-8 h-8 transition-transform group-hover:scale-110" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 p-3 text-white rounded-full backdrop-blur-sm transition-all transform -translate-y-1/2 bg-white/20 hover:bg-white/30 group"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="w-8 h-8 transition-transform group-hover:scale-110" />
-        </button>
 
         {/* Dots Indicator */}
         <div className="flex absolute bottom-8 left-1/2 gap-3 transform -translate-x-1/2">

@@ -38,9 +38,9 @@ const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden space-x-2 sm:space-x-4 lg:space-x-6 xl:space-x-8 md:flex md:flex-wrap md:items-center">
-            <Link href="/" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
+            {/* <Link href="/" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
               홈
-            </Link>
+            </Link> */}
 
             {/* 차량/요금 안내 Dropdown */}
             <div className="relative">
@@ -62,18 +62,18 @@ const Header: React.FC = () => {
                   >
                     <div className="py-1">
                       <a href="/vehicles" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량안내</a>
-                      <a href="/vehicle-management" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량관리</a>
+                      {/* <a href="/vehicle-management" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">차량관리</a> */}
                       <a href="/pricing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">이용요금 안내</a>
                       <a href="/insurance" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">보험안내</a>
-                      <a href="/rental-requirements" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">대여자격</a>
+                      {/* <a href="/rental-requirements" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">대여자격</a> */}
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* 예약/상담 Dropdown */}
-            <div className="relative">
+            {/* 예약/상담 Dropdown - 임시 숨김 */}
+            {/* <div className="relative">
               <button
                 onClick={() => toggleDropdown('reservation')}
                 className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
@@ -98,10 +98,10 @@ const Header: React.FC = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </div> */}
 
-            {/* 서비스 Dropdown */}
-            <div className="relative">
+            {/* 서비스 Dropdown - 임시 숨김 */}
+            {/* <div className="relative">
               <button
                 onClick={() => toggleDropdown('service')}
                 className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
@@ -128,10 +128,10 @@ const Header: React.FC = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </div> */}
 
-            {/* 공항 서비스 Dropdown */}
-            <div className="relative">
+            {/* 공항 서비스 Dropdown - 임시 숨김 */}
+            {/* <div className="relative">
               <button
                 onClick={() => toggleDropdown('airport')}
                 className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
@@ -156,10 +156,10 @@ const Header: React.FC = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </div> */}
 
-            {/* 고객센터 Dropdown */}
-            <div className="relative">
+            {/* 고객센터 Dropdown - 임시 숨김 */}
+            {/* <div className="relative">
               <button
                 onClick={() => toggleDropdown('customer')}
                 className="flex items-center text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600"
@@ -186,11 +186,12 @@ const Header: React.FC = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </div> */}
 
-            <a href="/찾아오시는길" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
+            {/* 오시는 길 - 임시 숨김 */}
+            {/* <a href="/찾아오시는길" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
               오시는 길
-            </a>
+            </a> */}
           </nav>
 
           {/* CTA Button */}
@@ -230,51 +231,52 @@ const Header: React.FC = () => {
                 <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">차량/요금 안내</p>
                   <a href="/vehicles" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량안내</a>
-                  <a href="/vehicle-management" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량관리</a>
+                  {/* <a href="/vehicle-management" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">차량관리</a> */}
                   <a href="/pricing" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">이용요금 안내</a>
                   <a href="/insurance" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">보험안내</a>
-                  <a href="/rental-requirements" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">대여자격</a>
+                  {/* <a href="/rental-requirements" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">대여자격</a> */}
                 </div>
 
-                {/* 예약/상담 */}
-                <div className="pt-2 border-t">
+                {/* 예약/상담 - 임시 숨김 */}
+                {/* <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">예약/상담</p>
                   <a href="/예약방법" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">예약방법</a>
                   <a href="/카카오톡-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">카카오톡 안내</a>
                   <a href="/위챗-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">위챗 안내</a>
-                </div>
+                </div> */}
 
-                {/* 서비스 */}
-                <div className="pt-2 border-t">
+                {/* 서비스 - 임시 숨김 */}
+                {/* <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">서비스</p>
                   <a href="/단기-월렌트" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">단기/월렌트</a>
                   <a href="/기사포함렌트카" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">기사포함렌트카</a>
                   <a href="/사고대차" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">사고대차</a>
                   <a href="/사고대차-안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">사고대차 안내</a>
                   <a href="/물품대여-서비스" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">물품대여 서비스</a>
-                </div>
+                </div> */}
 
-                {/* 공항 서비스 */}
-                <div className="pt-2 border-t">
+                {/* 공항 서비스 - 임시 숨김 */}
+                {/* <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">공항 서비스</p>
                   <a href="/공항-이용안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">공항 이용안내</a>
                   <a href="/공항-픽업안내" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">공항 픽업안내</a>
                   <a href="/인천공항-렌트" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">인천공항 렌트</a>
-                </div>
+                </div> */}
 
-                {/* 고객센터 */}
-                <div className="pt-2 border-t">
+                {/* 고객센터 - 임시 숨김 */}
+                {/* <div className="pt-2 border-t">
                   <p className="px-3 py-2 text-sm font-semibold text-gray-900">고객센터</p>
                   <a href="/배차후기" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">배차후기</a>
                   <a href="/사고대차-후기" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">사고대차 후기</a>
                   <a href="/게시판" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">게시판</a>
                   <a href="/이벤트" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">이벤트</a>
                   <a href="/최신소식" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">최신소식</a>
-                </div>
+                </div> */}
 
-                <a href="/찾아오시는길" className="block px-3 py-2 pt-2 text-gray-700 rounded-md border-t hover:text-blue-600 hover:bg-gray-50">
+                {/* 오시는 길 - 임시 숨김 */}
+                {/* <a href="/찾아오시는길" className="block px-3 py-2 pt-2 text-gray-700 rounded-md border-t hover:text-blue-600 hover:bg-gray-50">
                   오시는 길
-                </a>
+                </a> */}
 
                 <button className="px-3 py-2 mt-4 w-full text-left text-white bg-blue-600 rounded-md transition-colors duration-200 hover:bg-blue-700">
                   지금 예약하기
