@@ -34,7 +34,8 @@
 
 /* 룰렛 당첨 팝업 애니메이션 - 처음 버전 (한 번만 튀기) */
 @keyframes customBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
   }
@@ -45,7 +46,7 @@
 }
 
 .animate-customBounce {
-  animation: customBounce 1s 1;
+  animation: customBounce 1s 3;
 }
 
 /* 배경 페이드인 */
