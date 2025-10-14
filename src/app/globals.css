@@ -75,13 +75,14 @@
     transform: translateY(-5px) scale(1);
   }
   /* 완전히 정착 */
-  70%, 100% {
+  70%,
+  100% {
     transform: translateY(0) scale(1);
   }
 }
 
 .animate-customBounce {
-  animation: customBounce 1.2s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
+  animation: customBounce 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* 배경 페이드인 */
