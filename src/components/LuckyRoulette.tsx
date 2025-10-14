@@ -11,6 +11,11 @@ interface Prize {
   emoji: string;
 }
 
+interface WinHistory {
+  date: string;
+  prize: Prize;
+}
+
 const LuckyRoulette: React.FC = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
@@ -19,6 +24,7 @@ const LuckyRoulette: React.FC = () => {
   const [hasSpunToday, setHasSpunToday] = useState(false);
   const [lastSpinDate, setLastSpinDate] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false); // 클라이언트 마운트 확인
+  const [todayWinHistory, setTodayWinHistory] = useState<WinHistory | null>(null);
 
   // 컴포넌트 마운트 시 오늘 이미 돌렸는지 확인
   useEffect(() => {
@@ -34,6 +40,17 @@ const LuckyRoulette: React.FC = () => {
       if (lastSpin === today) {
         setHasSpunToday(true);
         setLastSpinDate(today);
+        
+        // 오늘의 당첨 내역 불러오기
+        const historyData = localStorage.getItem('rouletteWinHistory');
+        if (historyData) {
+          const history: WinHistory = JSON.parse(historyData);
+          if (history.date === today) {
+            setTodayWinHistory(history);
+            setWonPrize(history.prize);
+            console.log('📜 오늘 당첨 내역:', history.prize.name);
+          }
+        }
         console.log('🚫 오늘 이미 룰렛을 돌렸습니다.');
       } else {
         console.log('✅ 오늘 룰렛 참여 가능!');
@@ -83,6 +100,15 @@ const LuckyRoulette: React.FC = () => {
     // 당첨 경품 선택
     const prize = selectPrize();
     setWonPrize(prize);
+    
+    // 당첨 내역 저장
+    const winHistory: WinHistory = {
+      date: today,
+      prize: prize
+    };
+    localStorage.setItem('rouletteWinHistory', JSON.stringify(winHistory));
+    setTodayWinHistory(winHistory);
+    
     console.log('🎁 당첨 경품:', prize.name);
 
     // 룰렛 돌리기 (최소 3바퀴 + 당첨 위치)
@@ -167,88 +193,172 @@ const LuckyRoulette: React.FC = () => {
           </p>
         </div>
 
-        {/* Roulette Wheel */}
-        <div className="relative mx-auto mb-8 w-80 h-80 sm:w-96 sm:h-96">
+        {/* Roulette Wheel or Win History */}
+        {hasSpunToday && todayWinHistory ? (
+          // 당첨 내역 표시
+          <div className="mx-auto mb-8 w-80 sm:w-96">
+            <div className="p-8 bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border-4 border-yellow-400">
+              <div className="mb-4 text-center">
+                <div className="inline-flex gap-2 items-center px-4 py-2 mb-4 text-green-700 bg-green-100 rounded-full border-2 border-green-300">
+                  <Gift className="w-5 h-5" />
+                  <span className="font-bold">오늘의 당첨 내역</span>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="mb-4 text-8xl">{todayWinHistory.prize.emoji}</div>
+                <h3 className="mb-2 text-xl font-bold text-gray-900">
+                  {todayWinHistory.prize.id === 1 ? '아쉽네요!' : '축하합니다! 🎉'}
+                </h3>
+                <p 
+                  className="mb-4 text-3xl font-bold" 
+                  style={{ color: todayWinHistory.prize.color }}
+                >
+                  {todayWinHistory.prize.name}
+                </p>
+                <div className="pt-4 mt-4 text-sm text-gray-600 border-t border-gray-200">
+                  <p>당첨일: {new Date(todayWinHistory.date).toLocaleDateString('ko-KR')}</p>
+                </div>
 
-          {/* 포인터 (위쪽 화살표) */}
-          <div className="absolute -top-4 left-1/2 z-20 w-0 h-0 border-8 border-transparent drop-shadow-lg transform -translate-x-1/2 border-t-red-600">
-            <div className="absolute -top-3 left-1/2 w-4 h-8 bg-red-600 rounded-full transform -translate-x-1/2"></div>
-          </div>
+                {todayWinHistory.prize.id !== 1 && (
+                  <div className="mt-6 space-y-3">
+                    {/* 전화 문의 */}
+                    <div className="p-4 text-left bg-blue-50 rounded-lg border-2 border-blue-200">
+                      <p className="mb-2 text-sm font-bold text-blue-800">
+                        📞 전화로 예약하기
+                      </p>
+                      <p className="mb-3 text-sm text-gray-700">
+                        예약 시 &ldquo;룰렛 이벤트 당첨&rdquo;이라고 말씀해주세요!
+                      </p>
+                      <a
+                        href="tel:032-427-5500"
+                        className="block py-3 mt-2 text-base font-bold text-center text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600"
+                      >
+                        📞 032-427-5500 전화걸기
+                      </a>
+                    </div>
 
-          {/* 룰렛 원판 */}
-          <div
-            className="relative w-full h-full rounded-full shadow-2xl"
-            style={{
-              transform: `rotate(${rotation}deg)`,
-              transition: isSpinning ? 'transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99)' : 'none',
-            }}
-          >
-            {/* 경품 섹션들 */}
-            {prizes.map((prize, index) => {
-              const degreePerPrize = 360 / prizes.length;
-              const startAngle = index * degreePerPrize;
-              const endAngle = startAngle + degreePerPrize;
-
-              // 부채꼴 그리기 (SVG 사용)
-              const radius = 50; // 반지름 (%)
-              const startX = 50 + radius * Math.sin((startAngle * Math.PI) / 180);
-              const startY = 50 - radius * Math.cos((startAngle * Math.PI) / 180);
-              const endX = 50 + radius * Math.sin((endAngle * Math.PI) / 180);
-              const endY = 50 - radius * Math.cos((endAngle * Math.PI) / 180);
-
-              const largeArcFlag = degreePerPrize > 180 ? 1 : 0;
-              const pathData = `M 50 50 L ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} Z`;
-
-              return (
-                <div key={prize.id} className="absolute inset-0 pointer-events-none">
-                  <svg className="w-full h-full" viewBox="0 0 100 100">
-                    <path
-                      d={pathData}
-                      fill={prize.color}
-                      stroke="white"
-                      strokeWidth="0.5"
-                    />
-                  </svg>
-
-                  {/* 텍스트는 별도로 */}
-                  <div
-                    className="flex absolute top-0 left-0 justify-center items-start w-full h-full"
-                    style={{
-                      transform: `rotate(${startAngle + degreePerPrize / 2}deg)`,
-                      transformOrigin: 'center center',
-                    }}
-                  >
-                    <div className="mt-8 text-center text-white">
-                      <div className="mb-1 text-2xl">{prize.emoji}</div>
-                      <div className="text-[10px] font-bold leading-tight px-2">{prize.name}</div>
+                    {/* 채팅 문의 */}
+                    <div className="p-4 text-left bg-green-50 rounded-lg border-2 border-green-200">
+                      <p className="mb-2 text-sm font-bold text-green-800">
+                        💬 채팅으로 예약하기
+                      </p>
+                      <p className="mb-2 text-sm text-gray-700">
+                        1. 이 화면을 캡처해주세요
+                      </p>
+                      <p className="mb-2 text-sm text-gray-700">
+                        2. 채팅으로 캡처 사진 전송
+                      </p>
+                      <p className="mb-3 text-sm text-gray-700">
+                        3. 예약 확정 시 쿠폰 사용 가능
+                      </p>
+                      <div className="flex gap-2">
+                        <a
+                          href="http://pf.kakao.com/_XxgxjyK/chat"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-1 gap-2 justify-center items-center py-3 font-bold text-center text-gray-900 bg-yellow-400 rounded-lg transition-colors hover:bg-yellow-500"
+                        >
+                          💬 카카오톡 상담
+                        </a>
+                        <a
+                          href="https://pf.kakao.com/_XxgxjyK"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-1 gap-2 justify-center items-center py-3 font-bold text-center text-white bg-green-600 rounded-lg transition-colors hover:bg-green-700"
+                        >
+                          ➕ 채널 추가
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-
-            {/* 중앙 버튼 */}
-            <button
-              onClick={spinRoulette}
-              disabled={isSpinning || hasSpunToday}
-              className={`
-                absolute top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2
-                w-24 h-24 rounded-full font-bold text-white shadow-xl transition-all
-                ${isSpinning || hasSpunToday
-                  ? 'bg-gray-400 scale-95 cursor-not-allowed'
-                  : 'bg-gradient-to-br from-yellow-400 to-orange-500 cursor-pointer hover:scale-110 hover:shadow-2xl'
-                }
-              `}
-            >
-              <span className="text-xs whitespace-pre-line sm:text-sm">
-                {isSpinning ? '돌아가는중...' : hasSpunToday ? '오늘\n참여완료' : 'START!'}
-              </span>
-            </button>
+                )}
+              </div>
+            </div>
           </div>
+        ) : (
+          // 룰렛 돌림판
+          <div className="relative mx-auto mb-8 w-80 h-80 sm:w-96 sm:h-96">
+            {/* 포인터 (위쪽 화살표) */}
+            <div className="absolute -top-4 left-1/2 z-20 w-0 h-0 border-8 border-transparent drop-shadow-lg transform -translate-x-1/2 border-t-red-600">
+              <div className="absolute -top-3 left-1/2 w-4 h-8 bg-red-600 rounded-full transform -translate-x-1/2"></div>
+            </div>
 
-          {/* 외곽 테두리 */}
-          <div className="absolute inset-0 rounded-full border-8 border-yellow-400 pointer-events-none"></div>
-        </div>
+            {/* 룰렛 원판 */}
+            <div
+              className="relative w-full h-full rounded-full shadow-2xl"
+              style={{
+                transform: `rotate(${rotation}deg)`,
+                transition: isSpinning ? 'transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99)' : 'none',
+              }}
+            >
+              {/* 경품 섹션들 */}
+              {prizes.map((prize, index) => {
+                const degreePerPrize = 360 / prizes.length;
+                const startAngle = index * degreePerPrize;
+                const endAngle = startAngle + degreePerPrize;
+
+                // 부채꼴 그리기 (SVG 사용)
+                const radius = 50; // 반지름 (%)
+                const startX = 50 + radius * Math.sin((startAngle * Math.PI) / 180);
+                const startY = 50 - radius * Math.cos((startAngle * Math.PI) / 180);
+                const endX = 50 + radius * Math.sin((endAngle * Math.PI) / 180);
+                const endY = 50 - radius * Math.cos((endAngle * Math.PI) / 180);
+
+                const largeArcFlag = degreePerPrize > 180 ? 1 : 0;
+                const pathData = `M 50 50 L ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} Z`;
+
+                return (
+                  <div key={prize.id} className="absolute inset-0 pointer-events-none">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <path
+                        d={pathData}
+                        fill={prize.color}
+                        stroke="white"
+                        strokeWidth="0.5"
+                      />
+                    </svg>
+
+                    {/* 텍스트는 별도로 */}
+                    <div
+                      className="flex absolute top-0 left-0 justify-center items-start w-full h-full"
+                      style={{
+                        transform: `rotate(${startAngle + degreePerPrize / 2}deg)`,
+                        transformOrigin: 'center center',
+                      }}
+                    >
+                      <div className="mt-8 text-center text-white">
+                        <div className="mb-1 text-2xl">{prize.emoji}</div>
+                        <div className="text-[10px] font-bold leading-tight px-2">{prize.name}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* 중앙 버튼 */}
+              <button
+                onClick={spinRoulette}
+                disabled={isSpinning || hasSpunToday}
+                className={`
+                  absolute top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2
+                  w-24 h-24 rounded-full font-bold text-white shadow-xl transition-all
+                  ${isSpinning || hasSpunToday
+                    ? 'bg-gray-400 scale-95 cursor-not-allowed'
+                    : 'bg-gradient-to-br from-yellow-400 to-orange-500 cursor-pointer hover:scale-110 hover:shadow-2xl'
+                  }
+                `}
+              >
+                <span className="text-xs whitespace-pre-line sm:text-sm">
+                  {isSpinning ? '돌아가는중...' : hasSpunToday ? '오늘\n참여완료' : 'START!'}
+                </span>
+              </button>
+            </div>
+
+            {/* 외곽 테두리 */}
+            <div className="absolute inset-0 rounded-full border-8 border-yellow-400 pointer-events-none"></div>
+          </div>
+        )}
 
         {/* 결과 팝업 */}
         {showResult && wonPrize && (
