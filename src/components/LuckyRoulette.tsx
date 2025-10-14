@@ -274,13 +274,45 @@ const LuckyRoulette: React.FC = () => {
                 </p>
 
                 {wonPrize.id !== 1 && (
-                  <div className="p-4 mb-6 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-gray-700">
-                      📞 전화 예약 시 &ldquo;룰렛 이벤트 당첨&rdquo;이라고 말씀해주세요!
-                    </p>
-                    <p className="mt-2 text-lg font-bold text-blue-600">
-                      032-427-5500
-                    </p>
+                  <div className="space-y-4 mb-6">
+                    {/* 전화 문의 */}
+                    <div className="p-4 bg-blue-50 rounded-lg">
+                      <p className="mb-2 text-sm font-bold text-blue-800">
+                        📞 전화로 예약하기
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        예약 시 &ldquo;룰렛 이벤트 당첨&rdquo;이라고 말씀해주세요!
+                      </p>
+                      <p className="mt-2 text-lg font-bold text-blue-600">
+                        032-427-5500
+                      </p>
+                    </div>
+
+                    {/* 채팅 문의 */}
+                    <div className="p-4 bg-green-50 rounded-lg">
+                      <p className="mb-2 text-sm font-bold text-green-800">
+                        💬 채팅으로 예약하기
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        1. 이 화면을 캡처해주세요
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        2. 채팅으로 캡처 사진 전송
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        3. 예약 확정 시 쿠폰 사용 가능
+                      </p>
+                    </div>
+
+                    {/* 쿠폰 사용 기준 */}
+                    <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                      <p className="text-xs font-bold text-yellow-800">
+                        💡 쿠폰 사용 기준
+                      </p>
+                      <p className="mt-1 text-xs text-gray-700">
+                        예약 확정 시 사용 가능합니다
+                      </p>
+                    </div>
                   </div>
                 )}
 
