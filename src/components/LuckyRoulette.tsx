@@ -57,12 +57,20 @@ const LuckyRoulette: React.FC = () => {
     const prizeIndex = prizes.findIndex(p => p.id === prize.id);
     const degreePerPrize = 360 / prizes.length;
     const randomSpins = 3 + Math.floor(Math.random() * 3); // 3~5바퀴
-    const targetRotation = randomSpins * 360 + (prizeIndex * degreePerPrize) + (degreePerPrize / 2);
+    
+    // 화살표는 위쪽(12시 방향)에 있으므로, 당첨 경품이 위로 오도록 회전
+    // prizeIndex * degreePerPrize = 해당 경품의 시작 각도
+    // degreePerPrize / 2 = 경품의 중앙
+    // 360 - 를 해서 반대로 회전 (룰렛이 시계방향으로 회전하므로)
+    const targetAngle = 360 - (prizeIndex * degreePerPrize + degreePerPrize / 2);
+    const targetRotation = randomSpins * 360 + targetAngle;
 
     console.log('📊 회전 정보:', {
       prizeIndex,
+      prizeName: prize.name,
       degreePerPrize,
       randomSpins,
+      targetAngle,
       targetRotation,
       currentRotation: rotation
     });
