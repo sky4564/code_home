@@ -3,9 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Phone, MessageCircle, Car } from 'lucide-react';
 import Image from 'next/image';
+import LuckyRoulette from './LuckyRoulette';
+import { X } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showRoulette, setShowRoulette] = useState(false);
 
   const slides = [
     {
@@ -173,16 +176,37 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Event Banner */}
+      {/* Event Banner - Roulette */}
       <div className="py-4 bg-white md:py-6">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-block px-6 py-3 text-lg font-bold text-black bg-yellow-400 rounded-lg">
-              🔊 렌트하고 혜택받자! 지금 이벤트 중!
-            </div>
+            <button
+              onClick={() => setShowRoulette(true)}
+              className="inline-block px-6 py-3 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-lg shadow-lg transition-all hover:shadow-xl hover:scale-105 animate-pulse"
+            >
+              🎰 룰렛 돌리고 혜택받자! 지금 이벤트 중!
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Roulette Modal */}
+      {showRoulette && (
+        <div className="flex fixed inset-0 z-50 justify-center items-center p-4 backdrop-blur-sm bg-black/60 animate-fadeIn">
+          <div className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+            {/* 닫기 버튼 */}
+            <button
+              onClick={() => setShowRoulette(false)}
+              className="absolute top-4 right-4 z-50 p-2 text-gray-400 rounded-full transition-colors hover:bg-gray-100 hover:text-gray-600"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* 룰렛 컴포넌트 */}
+            <LuckyRoulette />
+          </div>
+        </div>
+      )}
     </section>
   );
 };
