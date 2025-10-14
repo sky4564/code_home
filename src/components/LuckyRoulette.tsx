@@ -144,14 +144,14 @@ const LuckyRoulette: React.FC = () => {
 
                   {/* 텍스트는 별도로 */}
                   <div
-                    className="absolute top-0 left-0 w-full h-full flex items-start justify-center"
+                    className="flex absolute top-0 left-0 justify-center items-start w-full h-full"
                     style={{
                       transform: `rotate(${startAngle + degreePerPrize / 2}deg)`,
                       transformOrigin: 'center center',
                     }}
                   >
                     <div className="mt-8 text-center text-white">
-                      <div className="text-2xl mb-1">{prize.emoji}</div>
+                      <div className="mb-1 text-2xl">{prize.emoji}</div>
                       <div className="text-[10px] font-bold leading-tight px-2">{prize.name}</div>
                     </div>
                   </div>
@@ -168,7 +168,7 @@ const LuckyRoulette: React.FC = () => {
                 w-24 h-24 rounded-full font-bold text-white shadow-xl transition-all
                 ${isSpinning
                   ? 'bg-gray-400 scale-95 cursor-not-allowed'
-                  : 'bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-110 hover:shadow-2xl cursor-pointer'
+                  : 'bg-gradient-to-br from-yellow-400 to-orange-500 cursor-pointer hover:scale-110 hover:shadow-2xl'
                 }
               `}
             >
@@ -182,8 +182,8 @@ const LuckyRoulette: React.FC = () => {
 
         {/* 결과 팝업 */}
         {showResult && wonPrize && (
-          <div className="flex fixed inset-0 z-50 justify-center items-center p-4 backdrop-blur-sm bg-black/60">
-            <div className="relative p-8 w-full max-w-md bg-white rounded-2xl shadow-2xl animate-bounce">
+          <div className="flex fixed inset-0 z-50 justify-center items-center p-4 backdrop-blur-sm bg-black/60 animate-fadeIn">
+            <div className="relative p-8 w-full max-w-md bg-white rounded-2xl shadow-2xl animate-customBounce">
 
               {/* 닫기 버튼 */}
               <button

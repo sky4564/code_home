@@ -32,6 +32,72 @@
   animation-delay: 4s;
 }
 
+/* 룰렛 당첨 팝업 애니메이션 - 자연스러운 바운스 (5번 튀기) */
+@keyframes customBounce {
+  0% {
+    transform: translateY(-100%) scale(0.5);
+    opacity: 0;
+  }
+  /* 1번째 튀기 - 강하게 */
+  10% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  15% {
+    transform: translateY(-60px) scale(1.05);
+  }
+  /* 2번째 튀기 - 강하게 */
+  25% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-50px) scale(1.03);
+  }
+  /* 3번째 튀기 - 강하게 */
+  40% {
+    transform: translateY(0) scale(1);
+  }
+  44% {
+    transform: translateY(-35px) scale(1.02);
+  }
+  /* 4번째 튀기 - 약하게 (에너지 잃음) */
+  52% {
+    transform: translateY(0) scale(1);
+  }
+  55% {
+    transform: translateY(-15px) scale(1.01);
+  }
+  /* 5번째 튀기 - 아주 약하게 (거의 멈춤) */
+  62% {
+    transform: translateY(0) scale(1);
+  }
+  64% {
+    transform: translateY(-5px) scale(1);
+  }
+  /* 완전히 정착 */
+  70%, 100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-customBounce {
+  animation: customBounce 1.2s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
+}
+
+/* 배경 페이드인 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
