@@ -24,10 +24,10 @@ const LuckyRoulette: React.FC = () => {
   useEffect(() => {
     // 클라이언트에서만 실행
     setIsClient(true);
-    
+
     const checkLastSpin = () => {
       if (typeof window === 'undefined') return;
-      
+
       const lastSpin = localStorage.getItem('rouletteLastSpin');
       const today = new Date().toDateString();
 
@@ -125,6 +125,29 @@ const LuckyRoulette: React.FC = () => {
       console.log('🔄 룰렛 위치 초기화 완료');
     }, 3000);
   };
+
+  // 클라이언트에서만 렌더링 (SSR hydration mismatch 방지)
+  if (!isClient) {
+    return (
+      <div className="relative py-12 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
+        <div className="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
+          <div className="mb-8 text-center">
+            <div className="inline-flex gap-2 items-center px-4 py-2 mb-4 text-yellow-700 bg-yellow-100 rounded-full border-2 border-yellow-300">
+              <Gift className="w-5 h-5" />
+              <span className="font-bold">행운의 룰렛 이벤트</span>
+            </div>
+            <h2 className="mb-2 text-3xl font-bold text-gray-900 md:text-4xl">
+              🎰 돌려돌려 룰렛!
+            </h2>
+            <p className="text-gray-600">
+              룰렛을 돌려 다양한 혜택을 받아가세요!
+            </p>
+          </div>
+          <div className="relative mx-auto mb-8 w-80 h-80 sm:w-96 sm:h-96 bg-gray-100 rounded-full animate-pulse" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative py-12 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
