@@ -188,10 +188,10 @@ const Header: React.FC = () => {
               </AnimatePresence>
             </div> */}
 
-            {/* 오시는 길 - 임시 숨김 */}
-            {/* <a href="/찾아오시는길" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
+            {/* 오시는 길 */}
+            <Link href="/location" className="text-sm text-gray-700 whitespace-nowrap transition-colors duration-200 lg:text-base hover:text-blue-600">
               오시는 길
-            </a> */}
+            </Link>
           </nav>
 
           {/* CTA Button */}
@@ -273,10 +273,10 @@ const Header: React.FC = () => {
                   <a href="/최신소식" className="block px-6 py-2 text-sm text-gray-700 rounded-md hover:text-blue-600 hover:bg-gray-50">최신소식</a>
                 </div> */}
 
-                {/* 오시는 길 - 임시 숨김 */}
-                {/* <a href="/찾아오시는길" className="block px-3 py-2 pt-2 text-gray-700 rounded-md border-t hover:text-blue-600 hover:bg-gray-50">
+                {/* 오시는 길 */}
+                <Link href="/location" className="block px-3 py-2 pt-2 text-gray-700 rounded-md border-t hover:text-blue-600 hover:bg-gray-50">
                   오시는 길
-                </a> */}
+                </Link>
 
                 <button className="px-3 py-2 mt-4 w-full text-left text-white bg-blue-600 rounded-md transition-colors duration-200 hover:bg-blue-700">
                   지금 예약하기
