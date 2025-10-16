@@ -2,13 +2,15 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
-import { ChevronDown, X } from 'lucide-react';
+import { ChevronDown, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Vehicle {
   id: string;
   name: string;
   category: string;
   image: string;
+  images?: string[]; // 실제 차량 사진들 (슬라이더용)
+  videoUrl?: string; // 동영상 링크
   fullName: string;
   brand: string;
   price: {
@@ -57,6 +59,17 @@ const VehicleGallery: React.FC = () => {
       name: '카니발',
       category: '승합차',
       image: '/main_cars/carnival_van.png',
+      images: [
+        '/image/carnival 2020 white/카니발 흰색.jpeg',
+        '/image/carnival 2020 white/KakaoTalk_Image_2025-05-29-16-27-34_001.jpeg',
+        '/image/carnival 2020 white/KakaoTalk_Image_2025-05-29-16-27-34_002.jpeg',
+        '/image/carnival 2020 white/KakaoTalk_Image_2025-05-29-16-27-34_003.jpeg',
+        '/image/carnival 2020 white/KakaoTalk_Image_2025-05-29-16-27-34_004.jpeg',
+        '/image/carnival 2020 white/KakaoTalk_Image_2025-05-29-16-27-34_005.jpeg',
+        '/image/carnival 2020 white/KakaoTalk_Image_2025-05-29-16-27-34_006.jpeg',
+        '/image/carnival 2020 white/KakaoTalk_Image_2025-05-29-16-27-34_007.jpeg',
+      ],
+      videoUrl: 'https://www.youtube.com/watch?v=9_ZG3aIcHIE', // YouTube 링크를 추가하시면 동영상이 표시됩니다
       fullName: '기아 카니발',
       brand: '기아',
       price: { daily: 120000, monthly: 2800000 },
@@ -573,126 +586,299 @@ const VehicleGallery: React.FC = () => {
 
   // Vehicle Detail Modal
   const VehicleModal = () => {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isImageFullScreen, setIsImageFullScreen] = useState(false);
+
     if (!selectedVehicle) return null;
 
+    // 실제 사진이 있으면 사용, 없으면 기본 이미지 사용
+    const displayImages = selectedVehicle.images || [selectedVehicle.image];
+
+    const handlePrevImage = () => {
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? displayImages.length - 1 : prev - 1
+      );
+    };
+
+    const handleNextImage = () => {
+      setCurrentImageIndex((prev) =>
+        prev === displayImages.length - 1 ? 0 : prev + 1
+      );
+    };
+
+    // YouTube 비디오 ID 추출 함수
+    const getYouTubeVideoId = (url: string) => {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
+    };
+
     return (
-      <div className="flex fixed inset-0 z-50 justify-center items-center p-4 bg-black bg-opacity-50" onClick={handleCloseModal}>
-        <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-xl" onClick={(e) => e.stopPropagation()}>
-          <button
-            onClick={handleCloseModal}
-            className="absolute top-4 right-4 z-10 p-2 text-gray-400 transition-colors hover:text-gray-600"
-          >
-            <X size={24} />
-          </button>
+      <>
+        {/* 전체화면 이미지 뷰어 */}
+        {isImageFullScreen && (
+          <div className="fixed inset-0 z-[60] bg-black flex items-center justify-center" onClick={() => setIsImageFullScreen(false)}>
+            <button
+              onClick={() => setIsImageFullScreen(false)}
+              className="absolute top-4 right-4 z-10 p-3 text-white bg-black bg-opacity-50 rounded-full transition-all hover:bg-opacity-75"
+            >
+              <X size={32} />
+            </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            {/* Vehicle Image */}
-            <div className="p-6">
-              <div className="max-h-[60vh] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg overflow-hidden flex items-center justify-center">
-                <Image
-                  src={selectedVehicle.image}
-                  alt={selectedVehicle.fullName}
-                  width={800}
-                  height={600}
-                  className="object-contain max-w-full max-h-full"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
+            <div className="flex relative justify-center items-center p-4 w-full h-full">
+              <Image
+                src={displayImages[currentImageIndex]}
+                alt={`${selectedVehicle.fullName} - ${currentImageIndex + 1}`}
+                width={1920}
+                height={1080}
+                className="object-contain max-w-full max-h-full"
+                sizes="100vw"
+                onClick={(e) => e.stopPropagation()}
+              />
+
+              {/* 전체화면 슬라이더 버튼 */}
+              {displayImages.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevImage();
+                    }}
+                    className="absolute left-4 p-3 text-white bg-black bg-opacity-50 rounded-full transition-all hover:bg-opacity-75"
+                  >
+                    <ChevronLeft size={32} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNextImage();
+                    }}
+                    className="absolute right-4 p-3 text-white bg-black bg-opacity-50 rounded-full transition-all hover:bg-opacity-75"
+                  >
+                    <ChevronRight size={32} />
+                  </button>
+
+                  {/* 전체화면 인디케이터 */}
+                  <div className="flex absolute bottom-8 left-1/2 gap-3 transform -translate-x-1/2">
+                    {displayImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(index);
+                        }}
+                        className={`w-3 h-3 rounded-full transition-all ${index === currentImageIndex
+                            ? 'bg-white w-8'
+                            : 'bg-white bg-opacity-50'
+                          }`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* 이미지 카운터 */}
+                  <div className="absolute top-4 left-4 px-4 py-2 text-white bg-black bg-opacity-50 rounded-full">
+                    {currentImageIndex + 1} / {displayImages.length}
+                  </div>
+                </>
+              )}
             </div>
+          </div>
+        )}
 
-            {/* Vehicle Details */}
-            <div className="p-6">
-              <div className="mb-4">
-                <span className="inline-block px-3 py-1 mb-2 text-sm font-medium text-blue-600 bg-blue-100 rounded-full">
-                  {selectedVehicle.brand}
-                </span>
-                <h2 className="mb-2 text-2xl font-bold text-gray-900">{selectedVehicle.fullName}</h2>
-                <p className="text-gray-600">{selectedVehicle.category}</p>
-              </div>
+        {/* 기본 모달 */}
+        <div className="flex fixed inset-0 z-50 justify-center items-center p-4 bg-black bg-opacity-50" onClick={handleCloseModal}>
+          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 z-10 p-2 text-gray-400 bg-white rounded-full shadow-lg transition-colors hover:text-gray-600"
+            >
+              <X size={24} />
+            </button>
 
-              {/* Price */}
-              <div className="mb-6">
-                <h3 className="mb-2 text-lg font-semibold text-gray-900">렌터카 요금</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-600">일일 요금</p>
-                    <p className="text-lg font-bold text-blue-600">
-                      {selectedVehicle.price.daily.toLocaleString()}원
-                    </p>
-                  </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-600">월간 요금</p>
-                    <p className="text-lg font-bold text-blue-600">
-                      {selectedVehicle.price.monthly.toLocaleString()}원
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* Vehicle Image Slider */}
+              <div className="p-6">
+                <div className="relative max-h-[60vh] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg overflow-hidden flex items-center justify-center cursor-pointer group"
+                  onClick={() => setIsImageFullScreen(true)}>
+                  <Image
+                    src={displayImages[currentImageIndex]}
+                    alt={`${selectedVehicle.fullName} - ${currentImageIndex + 1}`}
+                    width={800}
+                    height={600}
+                    className="object-contain max-w-full max-h-full"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
 
-              {/* Specifications */}
-              <div className="mb-6">
-                <h3 className="mb-3 text-lg font-semibold text-gray-900">차량 스펙</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-600">엔진</p>
-                    <p className="font-medium">{selectedVehicle.specs.engine}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">연료</p>
-                    <p className="font-medium">{selectedVehicle.specs.fuelType}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">변속기</p>
-                    <p className="font-medium">{selectedVehicle.specs.transmission}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">승차 인원</p>
-                    <p className="font-medium">{selectedVehicle.specs.passengers}명</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">수하물</p>
-                    <p className="font-medium">{selectedVehicle.specs.luggage}개</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Features */}
-              <div className="mb-6">
-                <h3 className="mb-3 text-lg font-semibold text-gray-900">주요 특징</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedVehicle.features.map((feature, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 text-sm text-blue-800 bg-blue-100 rounded-full"
-                    >
-                      {feature}
+                  {/* 크게보기 안내 */}
+                  <div className="flex absolute inset-0 justify-center items-center bg-black bg-opacity-0 transition-all group-hover:bg-opacity-20">
+                    <span className="px-4 py-2 text-sm font-medium text-white bg-black bg-opacity-70 rounded-full opacity-0 transition-opacity group-hover:opacity-100">
+                      🔍 클릭하여 크게보기
                     </span>
-                  ))}
+                  </div>
+
+                  {/* 슬라이더 버튼 - 이미지가 2개 이상일 때만 표시 */}
+                  {displayImages.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePrevImage();
+                        }}
+                        className="absolute left-2 z-10 p-2 text-white bg-black bg-opacity-50 rounded-full transition-all hover:bg-opacity-75"
+                      >
+                        <ChevronLeft size={24} />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNextImage();
+                        }}
+                        className="absolute right-2 z-10 p-2 text-white bg-black bg-opacity-50 rounded-full transition-all hover:bg-opacity-75"
+                      >
+                        <ChevronRight size={24} />
+                      </button>
+
+                      {/* 이미지 인디케이터 */}
+                      <div className="flex absolute bottom-4 z-10 gap-2">
+                        {displayImages.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCurrentImageIndex(index);
+                            }}
+                            className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex
+                              ? 'bg-white w-6'
+                              : 'bg-white bg-opacity-50'
+                              }`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
+
+                {/* 동영상 섹션 */}
+                {selectedVehicle.videoUrl && (
+                  <div className="mt-4">
+                    <h3 className="mb-2 text-lg font-semibold text-gray-900">차량 소개 영상</h3>
+                    <div className="relative pb-[56.25%] h-0 bg-gray-100 rounded-lg overflow-hidden">
+                      {selectedVehicle.videoUrl.includes('youtube.com') || selectedVehicle.videoUrl.includes('youtu.be') ? (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${getYouTubeVideoId(selectedVehicle.videoUrl)}`}
+                          title="차량 소개 영상"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="absolute top-0 left-0 w-full h-full"
+                        />
+                      ) : (
+                        <video
+                          controls
+                          className="absolute top-0 left-0 w-full h-full"
+                          src={selectedVehicle.videoUrl}
+                        >
+                          브라우저가 비디오를 지원하지 않습니다.
+                        </video>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Description */}
-              <div className="mb-6">
-                <h3 className="mb-2 text-lg font-semibold text-gray-900">차량 설명</h3>
-                <p className="leading-relaxed text-gray-700">{selectedVehicle.description}</p>
-              </div>
+              {/* Vehicle Details */}
+              <div className="p-6">
+                <div className="mb-4">
+                  <span className="inline-block px-3 py-1 mb-2 text-sm font-medium text-blue-600 bg-blue-100 rounded-full">
+                    {selectedVehicle.brand}
+                  </span>
+                  <h2 className="mb-2 text-2xl font-bold text-gray-900">{selectedVehicle.fullName}</h2>
+                  <p className="text-gray-600">{selectedVehicle.category}</p>
+                </div>
 
-              {/* Action Button */}
-              <div className="flex gap-3">
-                <button className="flex-1 px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">
-                  예약하기
-                </button>
-                <button
-                  onClick={handleCloseModal}
-                  className="px-6 py-3 font-semibold text-gray-700 rounded-lg border border-gray-300 transition-colors hover:bg-gray-50"
-                >
-                  닫기
-                </button>
+                {/* Price */}
+                <div className="mb-6">
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900">렌터카 요금</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-600">일일 요금</p>
+                      <p className="text-lg font-bold text-blue-600">
+                        {selectedVehicle.price.daily.toLocaleString()}원
+                      </p>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-600">월간 요금</p>
+                      <p className="text-lg font-bold text-blue-600">
+                        {selectedVehicle.price.monthly.toLocaleString()}원
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Specifications */}
+                <div className="mb-6">
+                  <h3 className="mb-3 text-lg font-semibold text-gray-900">차량 스펙</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-600">엔진</p>
+                      <p className="font-medium">{selectedVehicle.specs.engine}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">연료</p>
+                      <p className="font-medium">{selectedVehicle.specs.fuelType}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">변속기</p>
+                      <p className="font-medium">{selectedVehicle.specs.transmission}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">승차 인원</p>
+                      <p className="font-medium">{selectedVehicle.specs.passengers}명</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">수하물</p>
+                      <p className="font-medium">{selectedVehicle.specs.luggage}개</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Features */}
+                <div className="mb-6">
+                  <h3 className="mb-3 text-lg font-semibold text-gray-900">주요 특징</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedVehicle.features.map((feature, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 text-sm text-blue-800 bg-blue-100 rounded-full"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="mb-6">
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900">차량 설명</h3>
+                  <p className="leading-relaxed text-gray-700">{selectedVehicle.description}</p>
+                </div>
+
+                {/* Action Button */}
+                <div className="flex gap-3">
+                  <button className="flex-1 px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">
+                    예약하기
+                  </button>
+                  <button
+                    onClick={handleCloseModal}
+                    className="px-6 py-3 font-semibold text-gray-700 rounded-lg border border-gray-300 transition-colors hover:bg-gray-50"
+                  >
+                    닫기
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   };
 
