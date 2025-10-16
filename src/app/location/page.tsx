@@ -116,9 +116,10 @@ const LocationPage = () => {
               <div className="grid grid-cols-1 gap-2">
                 <button
                   onClick={() => {
-                    // 정확한 주소로 길찾기
+                    // 네이버 지도 - 주소로 검색 후 길찾기
+                    const address = '인천광역시 연수구 경원대로534번길 11';
                     window.open(
-                      'https://map.naver.com/p/directions/-/-/transit?c=15.00,0,0,0,dh&destination=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%97%B0%EC%88%98%EA%B5%AC%20%EA%B2%BD%EC%9B%90%EB%8C%80%EB%A1%9C534%EB%B2%88%EA%B8%B8%2011',
+                      `https://map.naver.com/p/search/${encodeURIComponent(address)}`,
                       '_blank'
                     );
                   }}
@@ -131,9 +132,9 @@ const LocationPage = () => {
                 </button>
                 <button
                   onClick={() => {
-                    // 티맵 길찾기 - 주소로 검색
-                    const address = '인천광역시 연수구 경원대로534번길 11';
-                    const tmapUrl = `tmap://search?name=${encodeURIComponent(address)}`;
+                    // 티맵 길찾기 - 등록된 장소명으로 검색
+                    const placeName = '차렌터카 본사';
+                    const tmapUrl = `tmap://search?name=${encodeURIComponent(placeName)}`;
                     window.location.href = tmapUrl;
                   }}
                   className="flex gap-2 justify-center items-center px-4 py-3 font-medium text-white bg-red-600 rounded-lg shadow-sm transition-colors hover:bg-red-700 active:bg-red-800"
