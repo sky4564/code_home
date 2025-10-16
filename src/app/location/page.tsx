@@ -11,26 +11,7 @@ const LocationPage = () => {
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Header />
 
-      {/* Hero Section */}
-      <section className="px-4 pt-24 pb-12 bg-gradient-to-r from-blue-600 to-blue-800">
-        <div className="mx-auto max-w-7xl text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-4 text-4xl font-bold text-white md:text-5xl"
-          >
-            찾아오시는 길
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-blue-100"
-          >
-            차렌터카로 오시는 방법을 안내해드립니다
-          </motion.p>
-        </div>
-      </section>
+
 
       {/* Main Content */}
       <section className="px-4 py-16">
@@ -44,14 +25,61 @@ const LocationPage = () => {
             <h2 className="mb-6 text-2xl font-bold text-gray-900">오시는 길 지도</h2>
 
             {/* 네이버맵 영역 */}
-            <div className="overflow-hidden relative w-full h-96 bg-gray-100 rounded-xl">
-              <div className="flex absolute inset-0 justify-center items-center">
-                <div className="text-center">
-                  <MapPin className="mx-auto mb-4 w-16 h-16 text-blue-600" />
-                  <p className="mb-6 text-gray-600">
+            <div className="overflow-hidden relative w-full h-96 bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-400 rounded-xl shadow-inner">
+              {/* 지도 패턴 배경 */}
+              <div className="absolute inset-0 opacity-80">
+                <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="map-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                      {/* 도로 패턴 - 선명한 흰색/노란색 */}
+                      <line x1="0" y1="50" x2="100" y2="50" stroke="#ffffff" strokeWidth="4" opacity="0.9" />
+                      <line x1="50" y1="0" x2="50" y2="100" stroke="#ffffff" strokeWidth="4" opacity="0.9" />
+                      {/* 작은 도로들 - 밝은 노란색 */}
+                      <line x1="0" y1="25" x2="100" y2="25" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.85" />
+                      <line x1="0" y1="75" x2="100" y2="75" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.85" />
+                      <line x1="25" y1="0" x2="25" y2="100" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.85" />
+                      <line x1="75" y1="0" x2="75" y2="100" stroke="#fbbf24" strokeWidth="3" strokeDasharray="8,4" opacity="0.85" />
+                      {/* 추가 도로들 - 시안색 */}
+                      <line x1="0" y1="12.5" x2="100" y2="12.5" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      <line x1="0" y1="37.5" x2="100" y2="37.5" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      <line x1="0" y1="62.5" x2="100" y2="62.5" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      <line x1="0" y1="87.5" x2="100" y2="87.5" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      <line x1="12.5" y1="0" x2="12.5" y2="100" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      <line x1="37.5" y1="0" x2="37.5" y2="100" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      <line x1="62.5" y1="0" x2="62.5" y2="100" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      <line x1="87.5" y1="0" x2="87.5" y2="100" stroke="#22d3ee" strokeWidth="2" strokeDasharray="4,2" opacity="0.7" />
+                      {/* 랜드마크 점들 - 비비드한 색상 */}
+                      <circle cx="30" cy="30" r="5" fill="#ef4444" opacity="0.9" />
+                      <circle cx="70" cy="70" r="5" fill="#ef4444" opacity="0.9" />
+                      <circle cx="30" cy="70" r="4" fill="#f97316" opacity="0.9" />
+                      <circle cx="70" cy="30" r="4" fill="#f97316" opacity="0.9" />
+                      <circle cx="50" cy="50" r="6" fill="#dc2626" opacity="0.95" />
+                      <circle cx="15" cy="15" r="3" fill="#f59e0b" opacity="0.85" />
+                      <circle cx="85" cy="85" r="3" fill="#f59e0b" opacity="0.85" />
+                      <circle cx="15" cy="85" r="3" fill="#f59e0b" opacity="0.85" />
+                      <circle cx="85" cy="15" r="3" fill="#f59e0b" opacity="0.85" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#map-pattern)" />
+                </svg>
+              </div>
+
+              {/* 장식용 위치 마커들 */}
+              <div className="flex absolute inset-0 opacity-60">
+                <MapPin className="absolute top-10 left-10 w-16 h-16 text-red-500 drop-shadow-lg animate-pulse" style={{ animationDuration: '3s' }} />
+                <MapPin className="absolute top-20 right-20 w-12 h-12 text-orange-500 drop-shadow-lg animate-pulse" style={{ animationDuration: '4s' }} />
+                <MapPin className="absolute bottom-20 left-1/4 w-14 h-14 text-yellow-500 drop-shadow-lg animate-pulse" style={{ animationDuration: '5s' }} />
+                <MapPin className="absolute bottom-10 right-1/4 w-10 h-10 text-pink-500 drop-shadow-lg animate-pulse" style={{ animationDuration: '3.5s' }} />
+                <MapPin className="absolute left-20 top-1/3 w-8 h-8 text-cyan-400 drop-shadow-lg animate-pulse" style={{ animationDuration: '4.5s' }} />
+              </div>
+
+              <div className="flex absolute inset-0 justify-center items-center backdrop-blur-none bg-white/60">
+                <div className="p-8 text-center rounded-2xl shadow-xl backdrop-blur-sm bg-white/90">
+                  <MapPin className="mx-auto mb-4 w-16 h-16 text-blue-600 drop-shadow-lg" />
+                  <p className="mb-6 font-medium text-gray-700">
                     인천광역시 연수구 경원대로534번길 11
                   </p>
-                  <div className="flex flex-col gap-3 justify-center px-4 md:flex-row md:px-0">
+                  <div className="flex flex-col gap-3 w-full md:flex-row md:justify-center">
                     <a
                       href="https://map.naver.com/p/search/%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%97%B0%EC%88%98%EA%B5%AC%20%EA%B2%BD%EC%9B%90%EB%8C%80%EB%A1%9C534%EB%B2%88%EA%B8%B8%2011"
                       target="_blank"
@@ -61,7 +89,7 @@ const LocationPage = () => {
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                       </svg>
-                      네이버지도에서 보기
+                      네이버에서 보기
                     </a>
                     <a
                       href="https://map.kakao.com/?q=인천광역시 연수구 경원대로534번길 11"
@@ -72,7 +100,7 @@ const LocationPage = () => {
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                       </svg>
-                      카카오맵에서 보기
+                      카카오에서 보기
                     </a>
                   </div>
                 </div>
@@ -308,7 +336,6 @@ const LocationPage = () => {
               </div>
             </motion.div>
           </div>
-
 
         </div>
       </section>
