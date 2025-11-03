@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Gift, X } from 'lucide-react';
 
 interface Prize {
@@ -42,7 +43,7 @@ const LuckyRoulette: React.FC = () => {
 
       if (storedData) {
         const data: RouletteData = JSON.parse(storedData);
-        
+
         if (data.lastSpinDate === today && data.winHistory) {
           setHasSpunToday(true);
           setTodayWinHistory(data.winHistory);
@@ -84,6 +85,14 @@ const LuckyRoulette: React.FC = () => {
     return prizes[0]; // 기본값
   };
 
+  // 쿠폰 정보를 URL 파라미터로 변환
+  const getCouponParams = (prize: Prize): string => {
+    if (prize.id === 3) return 'coupon=3000&couponValue=3000&couponType=discount_amount&locked=true';
+    if (prize.id === 4) return 'coupon=5000&couponValue=5000&couponType=discount_amount&locked=true';
+    if (prize.id === 6) return 'coupon=10000&couponValue=10000&couponType=discount_amount&locked=true';
+    return '';
+  };
+
   const spinRoulette = () => {
     if (isSpinning || hasSpunToday || typeof window === 'undefined') return;
 
@@ -94,7 +103,7 @@ const LuckyRoulette: React.FC = () => {
     // 당첨 경품 선택
     const prize = selectPrize();
     setWonPrize(prize);
-    
+
     console.log('🎁 당첨 경품:', prize.name);
 
     // 룰렛 돌리기 (최소 3바퀴 + 당첨 위치)
@@ -384,6 +393,21 @@ const LuckyRoulette: React.FC = () => {
 
                 {wonPrize.id !== 1 && (
                   <div className="my-6 space-y-3">
+                    {/* 바로 예약하기 버튼 - 할인 쿠폰 당첨 시에만 */}
+                    {(wonPrize.id === 3 || wonPrize.id === 4 || wonPrize.id === 6) && (
+                      <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-green-300">
+                        <p className="mb-3 text-sm font-bold text-green-800">
+                          🎉 바로 예약하고 쿠폰 적용하기
+                        </p>
+                        <Link
+                          href={`/reservation?${getCouponParams(wonPrize)}`}
+                          className="block py-3 mt-2 text-lg font-bold text-center text-white bg-gradient-to-r from-green-500 to-blue-600 rounded-lg transition-all hover:from-green-600 hover:to-blue-700 hover:scale-105"
+                        >
+                          🚗 바로 예약하기 ({wonPrize.name})
+                        </Link>
+                      </div>
+                    )}
+
                     {/* 전화 문의 */}
                     <div className="p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                       <p className="mb-2 text-sm font-bold text-blue-800">

@@ -2,7 +2,10 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
-import { ChevronDown, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { ChevronDown, X, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import ReservationForm from './ReservationForm';
+import DaumPostcode from 'react-daum-postcode';
 
 interface Vehicle {
   id: string;
@@ -33,6 +36,7 @@ const VehicleGallery: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(6); // 모바일: 6개 (3줄 × 2열)
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showReservationForm, setShowReservationForm] = useState(false);
 
   // 화면 크기에 따라 초기 visibleCount 설정
   useEffect(() => {
@@ -668,8 +672,8 @@ const VehicleGallery: React.FC = () => {
                           setCurrentImageIndex(index);
                         }}
                         className={`w-3 h-3 rounded-full transition-all ${index === currentImageIndex
-                            ? 'bg-white w-8'
-                            : 'bg-white bg-opacity-50'
+                          ? 'bg-white w-8'
+                          : 'bg-white bg-opacity-50'
                           }`}
                       />
                     ))}
@@ -864,7 +868,13 @@ const VehicleGallery: React.FC = () => {
 
                 {/* Action Button */}
                 <div className="flex gap-3">
-                  <button className="flex-1 px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">
+                  <button
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      setShowReservationForm(true);
+                    }}
+                    className="flex-1 px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
+                  >
                     예약하기
                   </button>
                   <button
@@ -956,19 +966,32 @@ const VehicleGallery: React.FC = () => {
                     {vehicle.name}
                   </h3>
                   <p className="mb-2 text-xs text-gray-600 sm:text-sm">{vehicle.category}</p>
-                  <div className="flex justify-between items-center">
+                  <div className="space-y-2">
                     <span className="text-[10px] sm:text-xs font-medium text-blue-600">
                       예약 가능
                     </span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleVehicleClick(vehicle);
-                      }}
-                      className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs text-white bg-blue-600 rounded-full transition-colors hover:bg-blue-700"
-                    >
-                      상세보기
-                    </button>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleVehicleClick(vehicle);
+                        }}
+                        className="flex-1 px-1 sm:px-2 py-1 text-[9px] sm:text-xs text-white bg-blue-600 rounded transition-colors hover:bg-blue-700"
+                      >
+                        상세보기
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedVehicle(vehicle);
+                          setShowReservationForm(true);
+                        }}
+                        className="flex-1 px-1 sm:px-2 py-1 text-[9px] sm:text-xs text-white bg-orange-600 rounded transition-colors hover:bg-orange-700 flex items-center justify-center gap-1"
+                      >
+                        <Calendar className="w-2 h-2 sm:w-3 sm:h-3" />
+                        예약
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1004,6 +1027,18 @@ const VehicleGallery: React.FC = () => {
 
       {/* Vehicle Detail Modal */}
       {isModalOpen && <VehicleModal />}
+
+      {/* Reservation Form Modal */}
+      <ReservationForm
+        isOpen={showReservationForm}
+        onClose={() => setShowReservationForm(false)}
+        selectedVehicle={selectedVehicle ? {
+          id: selectedVehicle.id,
+          name: selectedVehicle.name,
+          image: selectedVehicle.image,
+          category: selectedVehicle.category
+        } : null}
+      />
     </section>
   );
 };

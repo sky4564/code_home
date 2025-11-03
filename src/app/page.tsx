@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import EventBanner from '@/components/EventBanner'
@@ -17,9 +17,13 @@ export default function Home() {
   return (
     <main>
       <Header />
-      <Hero />
+      <Suspense fallback={<div className="text-center py-8">로딩 중...</div>}>
+        <Hero />
+      </Suspense>
       <EventBanner />
-      <VehicleGallery />
+      <Suspense fallback={<div className="text-center py-8">차량 로딩 중...</div>}>
+        <VehicleGallery />
+      </Suspense>
       <EventPromotion showRoulette={showRoulette} setShowRoulette={setShowRoulette} />
       {/* <Features /> */}
       {/* <About /> */}
