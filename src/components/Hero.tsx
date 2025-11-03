@@ -1,13 +1,15 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { Phone, MessageCircle, Car, X } from 'lucide-react';
+import { Phone, MessageCircle, Car, X, Calendar } from 'lucide-react';
 import Image from 'next/image';
 import LuckyRoulette from './LuckyRoulette';
+import ReservationForm from './ReservationForm';
 
 const Hero: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showRoulette, setShowRoulette] = useState(false);
+  const [showReservationForm, setShowReservationForm] = useState(false);
 
   const slides = [
     {
@@ -91,9 +93,9 @@ const Hero: React.FC = () => {
                     <div className="flex flex-col gap-3 max-w-sm">
                       <a
                         href="tel:032-427-5500"
-                        className="w-full px-6 py-4 font-semibold text-gray-900 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl transition-all hover:bg-white hover:shadow-2xl hover:translate-x-2 border-l-4 border-green-600"
+                        className="px-6 py-4 w-full font-semibold text-gray-900 rounded-xl border-l-4 border-green-600 shadow-xl backdrop-blur-sm transition-all bg-white/95 hover:bg-white hover:shadow-2xl hover:translate-x-2"
                       >
-                        <span className="flex gap-3 items-center justify-start">
+                        <span className="flex gap-3 justify-start items-center">
                           <div className="p-2 bg-green-50 rounded-lg">
                             <Phone className="w-5 h-5 text-green-600" />
                           </div>
@@ -106,9 +108,9 @@ const Hero: React.FC = () => {
 
                       <button
                         onClick={openChannelTalk}
-                        className="w-full px-6 py-4 font-semibold text-gray-900 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl transition-all hover:bg-white hover:shadow-2xl hover:translate-x-2 border-l-4 border-blue-600"
+                        className="px-6 py-4 w-full font-semibold text-gray-900 rounded-xl border-l-4 border-blue-600 shadow-xl backdrop-blur-sm transition-all bg-white/95 hover:bg-white hover:shadow-2xl hover:translate-x-2"
                       >
-                        <span className="flex gap-3 items-center justify-start">
+                        <span className="flex gap-3 justify-start items-center">
                           <div className="p-2 bg-blue-50 rounded-lg">
                             <MessageCircle className="w-5 h-5 text-blue-600" />
                           </div>
@@ -116,11 +118,23 @@ const Hero: React.FC = () => {
                         </span>
                       </button>
 
+                      <button
+                        onClick={() => setShowReservationForm(true)}
+                        className="px-6 py-4 w-full font-semibold text-gray-900 rounded-xl border-l-4 border-orange-600 shadow-xl backdrop-blur-sm transition-all bg-white/95 hover:bg-white hover:shadow-2xl hover:translate-x-2"
+                      >
+                        <span className="flex gap-3 justify-start items-center">
+                          <div className="p-2 bg-orange-50 rounded-lg">
+                            <Calendar className="w-5 h-5 text-orange-600" />
+                          </div>
+                          <span className="text-left">지금 예약하기</span>
+                        </span>
+                      </button>
+
                       <a
                         href="/vehicles"
-                        className="w-full px-6 py-4 font-semibold text-gray-900 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl transition-all hover:bg-white hover:shadow-2xl hover:translate-x-2 border-l-4 border-purple-600"
+                        className="px-6 py-4 w-full font-semibold text-gray-900 rounded-xl border-l-4 border-purple-600 shadow-xl backdrop-blur-sm transition-all bg-white/95 hover:bg-white hover:shadow-2xl hover:translate-x-2"
                       >
-                        <span className="flex gap-3 items-center justify-start">
+                        <span className="flex gap-3 justify-start items-center">
                           <div className="p-2 bg-purple-50 rounded-lg">
                             <Car className="w-5 h-5 text-purple-600" />
                           </div>
@@ -157,7 +171,7 @@ const Hero: React.FC = () => {
           <div className="text-center">
             <button
               onClick={() => setShowRoulette(true)}
-              className="inline-block px-6 py-3 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-lg shadow-lg transition-all hover:shadow-xl hover:scale-105 animate-pulse"
+              className="inline-block px-6 py-3 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-lg shadow-lg transition-all animate-pulse hover:shadow-xl hover:scale-105"
             >
               🎰 룰렛 돌리고 혜택받자! 지금 이벤트 중!
             </button>
@@ -182,6 +196,12 @@ const Hero: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Reservation Form Modal */}
+      <ReservationForm
+        isOpen={showReservationForm}
+        onClose={() => setShowReservationForm(false)}
+      />
     </section>
   );
 };
